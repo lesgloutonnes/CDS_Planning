@@ -136,7 +136,9 @@ class FridayRotationCounter(models.Model):
                 ("planning_week_id.start_date", ">=", f"{year}-01-01"),
                 ("planning_week_id.start_date", "<=", f"{year}-12-31"),
             ],
-            order="planning_week_id.start_date asc",
+        )
+        assignments = assignments.sorted(
+            key=lambda a: a.planning_week_id.start_date or date.min
         )
 
         counts = {}
