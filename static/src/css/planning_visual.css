@@ -1,0 +1,1511 @@
+/* ================================
+   PLANNING VISUAL CSS - VARIABLES ET BASE
+   ================================ */
+
+/* Variables de la charte graphique CHC */
+:root {
+    --chc-blue-primary: #1e3a8a;  /* Bleu marine principal CHC */
+    --chc-red: #e53e3e;           /* Rouge CHC (couleur secondaire) */
+    --chc-yellow: #fbbf24;        /* Jaune CHC */
+    --chc-yellow-light: #fef3c7;  /* Jaune clair */
+    --chc-gray-50: #f9fafb;
+    --chc-gray-100: #f3f4f6;
+    --chc-gray-200: #e5e7eb;
+    --chc-gray-300: #d1d5db;
+    --chc-gray-600: #4b5563;
+    --chc-gray-800: #1f2937;
+}
+
+/* Style principal avec identité CHC - VERSION COMPACTE */
+.planning-container {
+    max-width: 75%;                /* VUE A 75% */
+    margin: 0 auto;                /* CENTRAGE AUTOMATIQUE */
+    padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Animations subtiles pour une expérience CHC premium */
+* {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Accessibilité CHC */
+.planning-table:focus-within {
+    outline: 3px solid var(--chc-yellow);
+    outline-offset: 2px;
+}
+
+/* ================================
+   TABLEAU PRINCIPAL ET STRUCTURE
+   ================================ */
+
+   .planning-table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 16px;
+    border: 2px solid var(--chc-gray-300);  /* BORDURE PLUS VISIBLE */
+    box-shadow: 0 8px 25px rgba(30, 58, 138, 0.12);  /* OMBRE PLUS PRONONCÉE */
+    padding: 0;
+}
+
+.planning-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.875rem;
+    min-width: 900px;              /* RÉDUCTION DE LA LARGEUR MINIMALE */
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.planning-table th,
+.planning-table td {
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+    border-bottom: 1px solid var(--chc-gray-200);
+    border-right: 2px solid var(--chc-gray-300);  /* GRILLE VERTICALE RENFORCÉE */
+}
+
+/* ================================
+   COLONNES ET DIMENSIONS
+   ================================ */
+
+.site-column {
+    width: 150px;                  /* RÉDUCTION DE LA LARGEUR */
+    min-width: 150px;
+}
+
+.day-column {
+    min-width: 120px;              /* RÉDUCTION DE LA LARGEUR */
+}
+
+/* ================================
+   EN-TÊTES STYLE CHC - AMÉLIORÉ
+   ================================ */
+
+   .header-row th {
+    background-color: var(--chc-blue-primary);
+    color: white;
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    padding: 22px 16px;            /* PADDING AUGMENTÉ POUR MEILLEURE VISIBILITÉ */
+    font-size: 1.05rem;            /* TAILLE POLICE AUGMENTÉE */
+    letter-spacing: 0.05em;        /* LETTER-SPACING AUGMENTÉ */
+    text-transform: uppercase;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);  /* SÉPARATION DANS L'EN-TÊTE */
+}
+
+.header-row th:first-child {
+    background-color: var(--chc-blue-primary);
+    width: 180px;                  /* RÉDUCTION DE LA LARGEUR */
+    min-width: 180px;
+    text-align: left;
+    padding-left: 32px;            /* PADDING GAUCHE POUR L'EN-TÊTE */
+    border-top-left-radius: 16px;
+    text-transform: none;
+    font-size: 1.15rem;            /* TAILLE POLICE AUGMENTÉE COMME LES JOURS */
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    letter-spacing: 0.05em;        /* LETTER-SPACING POUR COHÉRENCE */
+}
+
+.header-row th:last-child {
+    border-top-right-radius: 16px;
+    border-right: none;
+}
+
+.period-row th {
+    padding: 14px 12px;            /* PADDING AUGMENTÉ POUR MEILLEURE VISIBILITÉ */
+    font-weight: 400;              /* FONT-WEIGHT NORMAL (SANS BOLD) */
+    font-size: 1.1rem;             /* TAILLE POLICE SIGNIFICATIVEMENT AUGMENTÉE */
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;        /* LETTER-SPACING AUGMENTÉ */
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.period-row th:first-child {
+    background-color: var(--chc-blue-primary);
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.period-row th:last-child {
+    border-right: none;
+}
+
+.am-period {
+    background-color: #0ea5e9 !important;
+}
+
+.pm-period {
+    background-color: var(--chc-red) !important;
+    color: white !important;
+}
+
+.day-name {
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    font-size: 1.15rem;            /* TAILLE POLICE SIGNIFICATIVEMENT AUGMENTÉE */
+    letter-spacing: 0.06em;        /* LETTER-SPACING AUGMENTÉ */
+}
+
+.day-date {
+    font-size: 1.1rem;             /* TAILLE POLICE AUGMENTÉE */
+    opacity: 1;
+    margin-top: 4px;               /* MARGIN-TOP AUGMENTÉ POUR MEILLEUR ESPACEMENT */
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+}
+
+/* ================================
+   JOURS FÉRIÉS - STYLE AVEC HACHURAGE
+   ================================ */
+
+/* En-tête des jours fériés */
+.day-column.holiday-day {
+    background-color: rgba(229, 62, 62, 0.15) !important; /* Rouge CHC avec transparence */
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(229, 62, 62, 0.1) 10px,
+        rgba(229, 62, 62, 0.1) 20px
+    );
+    position: relative;
+}
+
+/* Emoji affiché par le template (variable selon le jour férié) */
+.holiday-emoji {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 1.15rem;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+/* Cellules du corps du tableau pour les jours fériés */
+.holiday-cell,
+.assignment-cell.holiday-cell,
+.full-day-cell.holiday-cell,
+.am-cell.holiday-cell,
+.pm-cell.holiday-cell {
+    background-color: rgba(229, 62, 62, 0.08) !important; /* Rouge CHC très léger */
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(229, 62, 62, 0.05) 8px,
+        rgba(229, 62, 62, 0.05) 16px
+    ) !important;
+    position: relative;
+}
+
+/* Supprimer les bordures internes dans les jours fériés (bloc hachuré continu) */
+.planning-table td.holiday-cell,
+.planning-table td.assignment-cell.holiday-cell,
+.planning-table td.full-day-cell.holiday-cell,
+.planning-table td.am-cell.holiday-cell,
+.planning-table td.pm-cell.holiday-cell {
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+}
+
+/* Assurer que le texte reste lisible sur les jours fériés */
+.holiday-cell .assignment-code {
+    opacity: 0.6;
+}
+
+/* ================================
+   CELLULES DE SITES CHC - COMPACTES
+   ================================ */
+
+   .site-cell {
+    background-color: var(--chc-gray-50);
+    border-right: 2px solid var(--chc-gray-300);  /* BORDURE PLUS FORTE POUR SÉPARER */
+    padding: 16px 18px 16px 40px;  /* PADDING SUPPLÉMENTAIRE POUR ALIGNER LE TEXTE AVEC L'EN-TÊTE */
+    text-align: left;               /* ALIGNEMENT À GAUCHE */
+    vertical-align: middle;
+    width: 180px;                  /* RÉDUCTION DE LA LARGEUR */
+    min-width: 180px;
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    font-size: 1.15rem;            /* TAILLE POLICE AUGMENTÉE */
+    color: var(--chc-blue-primary);
+}
+
+.site-header-row {
+    background: transparent;
+}
+
+.site-name {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;   /* ALIGNEMENT À GAUCHE */
+    gap: 8px;                      /* GAP RÉDUIT */
+}
+
+.site-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;                   /* TAILLE AUGMENTÉE POUR MEILLEURE VISIBILITÉ */
+    height: 36px;
+    border-radius: 8px;
+    font-weight: 800;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    color: white;
+    font-size: 0.85rem;            /* TAILLE POLICE AUGMENTÉE */
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.site-fullname {
+    font-size: 1.05rem;             /* TAILLE POLICE AUGMENTÉE POUR LISIBILITÉ */
+    font-weight: 800;               /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    color: var(--chc-blue-primary);
+    display: block;
+    padding-left: 32px;             /* DÉCALAGE PLUS IMPORTANT DU TEXTE DES ACTIVITÉS */
+}
+
+.permanence-cell {
+    background-color: white;
+    border-right: 2px solid var(--chc-gray-300);
+    padding: 14px 18px 14px 40px;  /* PADDING SUPPLÉMENTAIRE POUR ALIGNER LE TEXTE AVEC L'EN-TÊTE */
+    font-weight: 700;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    font-size: 0.95rem;            /* TAILLE POLICE SIGNIFICATIVEMENT AUGMENTÉE */
+    color: var(--chc-gray-700);    /* COULEUR ASSOMBRIE POUR MEILLEUR CONTRASTE */
+    text-align: left;
+    vertical-align: middle;
+    width: 180px;
+    min-width: 180px;
+}
+
+.permanence-name {
+    font-weight: 700;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    letter-spacing: 0.03em;        /* LETTER-SPACING AUGMENTÉ */
+}
+
+/* ================================
+   COULEURS DES SITES CHC
+   ================================ */
+
+.badge-HRM { 
+    background-color: #059669;
+}
+
+.badge-HEU { 
+    background-color: #0ea5e9;
+}
+
+.badge-WAR { 
+    background-color: var(--chc-yellow);
+    color: var(--chc-gray-800);
+}
+
+.badge-MLE { 
+    background-color: var(--chc-red);
+}
+
+/* ================================
+   CELLULES D'AFFECTATION CHC - COMPACTES
+   ================================ */
+
+   .assignment-cell {
+    padding: 6px;                  /* PADDING RÉDUIT */
+    min-width: 50px;               /* LARGEUR RÉDUITE */
+    max-width: 50px;
+    width: 50px;
+    height: 40px;                  /* HAUTEUR RÉDUITE */
+    position: relative;
+    overflow: visible;
+    white-space: nowrap;
+    background-color: white;
+    transition: background-color 0.2s ease;
+    border-right: 1px solid var(--chc-gray-200);  /* GRILLE FINE */
+}
+
+/* SÉPARATION FORTE ENTRE LES JOURS */
+.assignment-cell:nth-child(2n) {
+    border-right: 2px solid var(--chc-gray-300) !important;  /* BORDURE FORTE POUR PM */
+}
+
+.am-cell {
+    background-color: #f0f9ff;
+    border-left: 2px solid var(--chc-gray-300);   /* BORDURE GAUCHE POUR AM */
+}
+
+.pm-cell {
+    background-color: #fef2f2;
+    border-right: 2px solid var(--chc-gray-300);   /* BORDURE DROITE POUR PM */
+}
+
+.assignment-cell:hover {
+    background-color: var(--chc-gray-50);
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 2px var(--chc-blue-primary);
+    position: relative;
+    z-index: 5;
+}
+
+.full-day-cell {
+    min-width: 100px;              /* LARGEUR RÉDUITE */
+    max-width: 100px;
+    width: 100px;
+    background: linear-gradient(to right, #f0f9ff 50%, #fef2f2 50%);
+    border-right: 2px solid var(--chc-gray-300) !important;  /* SÉPARATION FORTE */
+}
+
+.assignment-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    min-height: 32px;              /* HAUTEUR RÉDUITE */
+}
+
+/* ================================
+   CODES D'EMPLOYÉS STYLE CHC - COMPACTS
+   ================================ */
+
+.assignment-code {
+    font-weight: 700;              /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+    padding: 6px 8px;              /* PADDING RÉDUIT */
+    border-radius: 6px;            /* RAYON RÉDUIT */
+    font-size: 0.875rem;           /* TAILLE POLICE LÉGÈREMENT AUGMENTÉE */
+    display: block;
+    min-width: 70%;                /* LARGEUR RÉDUITE */
+    max-width: 70%;
+    border: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    letter-spacing: 0.03em;        /* LETTER-SPACING LÉGÈREMENT AUGMENTÉ */
+    
+    /* Couleur par défaut seulement si pas de data-color ou JavaScript désactivé */
+    background-color: var(--chc-yellow);
+    color: var(--chc-gray-800);
+    box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+}
+
+.assignment-code:hover {
+    transform: translateY(-2px);
+}
+
+/* Skin décoratif: pétales de cerisier (superposés à la couleur, sous le texte) */
+.assignment-code.skin-sakura {
+    /* Base rose légère pour adoucir le rendu */
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(
+        135deg,
+        rgb(255, 240, 247) 0%,
+        rgb(255, 214, 234) 100%
+    );
+    /* Le texte reste visuellement prioritaire */
+    text-shadow:
+        0 1px 1px rgba(255, 255, 255, 0.65),
+        0 0 2px rgba(255, 255, 255, 0.55);
+    box-shadow:
+        0 2px 4px rgba(251, 191, 36, 0.3),
+        inset 0 0 0 1px rgba(236, 72, 153, 0.35);
+}
+
+.assignment-code.skin-sakura::before {
+    /* Bandeau haut: fleurs décoratives sans recouvrir le texte central */
+    content: "🌸 💮 🌸 💮 🌸 💮 🌸 💮 🌸 💮 🌸 💮 🌸 💮 🌸 💮";
+    position: absolute;
+    top: -1px;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    white-space: nowrap;
+    font-size: 9px;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.assignment-code.skin-sakura::after {
+    /* Bandeau bas: équilibre visuel, centre laissé libre */
+    content: "       🌸 💮 🌸      ";
+    position: absolute;
+    bottom: -1px;
+    left: 6px;
+    right: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    white-space: nowrap;
+    font-size: 8px;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+/* Skin Johnny: loups + lunes, ambiance nuit rock */
+.assignment-code.skin-johnny-wolf-moon {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(
+        135deg,
+        rgba(28, 34, 62, 0.92) 0%,
+        rgba(54, 45, 92, 0.88) 50%,
+        rgba(16, 21, 44, 0.94) 100%
+    );
+    color: #f5f7ff !important;
+    text-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.65),
+        0 0 2px rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 2px 4px rgba(25, 30, 55, 0.45),
+        inset 0 0 0 1px rgba(201, 207, 255, 0.28);
+}
+
+.assignment-code.skin-johnny-wolf-moon::before {
+    /* Pleine lune en haut à droite */
+    content: "🌕";
+    position: absolute;
+    top: -3px;
+    right: 2px;
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.assignment-code.skin-johnny-wolf-moon::after {
+    /* Loup en bas à gauche */
+    content: "🐺";
+    position: absolute;
+    bottom: -3px;
+    left: 2px;
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.99;
+    pointer-events: none;
+}
+
+/* Skin Anniversaire (fun): confettis + gateau/ballon */
+.assignment-code.skin-birthday-party {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(
+        135deg,
+        rgb(175, 4, 255) 0%,
+        rgb(0, 136, 255) 100%
+    );
+    /* Le texte reste visuellement prioritaire */
+    text-shadow:
+        0 1px 1px rgba(255, 255, 255, 0.65),
+        0 0 2px rgba(255, 255, 255, 0.55);
+    box-shadow:
+        0 2px 4px rgba(251, 191, 36, 0.3),
+        inset 0 0 0 1px rgba(236, 72, 153, 0.35);
+}
+
+.assignment-code.skin-birthday-party::before {
+    content: "🎊 🎊 🎊 🎊 🎊 🎊 🎊  🎊🎊 🎊 🎊 🎊 🎊";
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    font-size: 12px;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.assignment-code.skin-birthday-party::after {
+    content: "🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁 🎁";
+    position: absolute;
+    bottom: -2px;
+    left: 2px;
+    font-size: 12px;
+    line-height: 1;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+/* Confettis subtils (sans recouvrir le texte) */
+.assignment-code.skin-birthday-party {
+    background-image:
+        radial-gradient(circle at 16% 30%, rgba(255, 105, 180, 0.42) 0 1.2px, transparent 1.3px),
+        radial-gradient(circle at 28% 72%, rgba(59, 130, 246, 0.40) 0 1.1px, transparent 1.2px),
+        radial-gradient(circle at 41% 24%, rgba(34, 197, 94, 0.38) 0 1.1px, transparent 1.2px),
+        radial-gradient(circle at 63% 70%, rgba(249, 115, 22, 0.42) 0 1.2px, transparent 1.3px),
+        radial-gradient(circle at 79% 36%, rgba(147, 51, 234, 0.4) 0 1.1px, transparent 1.2px),
+        linear-gradient(
+            135deg,
+            rgba(255, 238, 246, 0.58) 0%,
+            rgba(226, 241, 255, 0.52) 50%,
+            rgba(255, 247, 216, 0.54) 100%
+        );
+}
+
+/* Skin Carni: jungle verte + dionée + liane */
+.assignment-code.skin-carni {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(
+        135deg,
+        rgba(22, 84, 44, 0.86) 0%,
+        rgba(34, 116, 55, 0.8) 55%,
+        rgba(17, 70, 40, 0.88) 100%
+    );
+    color: #ecffe9 !important;
+    text-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.55),
+        0 0 2px rgba(162, 255, 174, 0.3);
+    box-shadow:
+        0 2px 4px rgba(10, 60, 20, 0.45),
+        inset 0 0 0 1px rgba(132, 255, 161, 0.26);
+}
+
+.assignment-code.skin-carni::before {
+    content: "🦟 ";
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    font-size: 15px;
+    line-height: 1;
+    opacity: 1;
+    pointer-events: none;
+}
+
+.assignment-code.skin-carni::after {
+    content: "☠️";
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    font-size: 15px;
+    line-height: 1;
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* ================================
+   AJUSTEMENTS SPÉCIFIQUES: TABLE PERMANENCES SPÉCIALES
+   ================================ */
+
+.planning-table.special-table {
+    table-layout: fixed; /* Assure des largeurs cohérentes comme le tableau principal */
+}
+
+.planning-table.special-table .assignment-cell {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    height: 40px;
+}
+
+.planning-table.special-table .full-day-cell {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.planning-table.special-table .assignment-wrapper {
+    padding: 0;               /* supprime toute dilatation verticale */
+}
+
+.planning-table.special-table .assignment-code {
+    min-width: 70%;           /* capsule compacte, identique au tableau principal */
+    max-width: 70%;
+    margin: 0 auto;           /* centre sans ajouter d’espace vertical */
+}
+
+/* ================================
+   INDICATEUR D'HEURES ÉTENDUES CHC - VERSION ÉMOJI 🕐
+   ================================ */
+
+   .extended-indicator-wrapper {
+    position: absolute !important;
+    top: -2px !important;
+    right: 4px !important;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50 !important;
+    pointer-events: none;
+}
+
+.extended-indicator {
+    /* Style optimisé pour l'émoji horloge */
+    font-size: 12px;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", emoji;
+    
+    /* Animation subtile */
+    transition: transform 0.2s ease;
+    font-variant-emoji: emoji;
+    text-rendering: optimizeLegibility;
+}
+
+.extended-indicator:hover {
+    transform: scale(1.1);
+}
+
+/* ================================
+   RANGÉES STYLE CHC
+   ================================ */
+
+.assignment-row {
+    height: 44px;                  /* HAUTEUR RÉDUITE */
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--chc-gray-200);
+}
+
+.assignment-row:hover {
+    background-color: rgba(251, 191, 36, 0.02);
+}
+
+/* LIGNES DE SÉPARATION ENTRE LES SECTIONS */
+.assignment-row:nth-child(odd) {
+    background-color: rgba(249, 250, 251, 0.5);
+}
+
+/* ================================
+   NAVIGATEUR DE SEMAINES CHC - COMPACT
+   ================================ */
+
+   .week-navigator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--chc-gray-200);
+    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.05);
+}
+
+.week-navigator > div:first-child {
+    min-width: 60px;
+}
+
+.week-navigator > div:last-child {
+    min-width: 60px;
+}
+
+.week-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--chc-blue-primary);
+    margin: 0;
+}
+
+.week-navigator .btn {
+    border-radius: 8px;            /* RAYON RÉDUIT */
+    width: 40px;                   /* TAILLE RÉDUITE */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: 2px solid var(--chc-gray-200);
+    background-color: white;
+    color: var(--chc-gray-600);
+}
+
+.week-navigator .btn:hover:not(.disabled) {
+    background-color: var(--chc-blue-primary);
+    border-color: var(--chc-blue-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+}
+
+.week-navigator .btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ================================
+   DRAG & DROP STYLE CHC
+   ================================ */
+
+/* DRAG & DROP - DEBUG VISUEL AMÉLIORÉ */
+.assignment-cell.drag-source {
+    background-color: var(--chc-yellow-light) !important;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 3px var(--chc-yellow) !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* Cellule cible du drop (où on va déposer) */
+.assignment-cell.drag-over {
+    background-color: #dbeafe;
+    border-radius: 8px;
+    /* Combiner box-shadow interne et externe */
+    box-shadow: 
+        inset 0 0 0 2px var(--chc-blue-primary),
+        0 0 0 2px rgba(30, 58, 138, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+/* Effet de survol pendant le drag */
+.assignment-code.dragging {
+    opacity: 0.8;
+    transform: rotate(2deg) scale(1.05);
+    box-shadow: 0 8px 16px rgba(30, 58, 138, 0.3);
+    z-index: 1000;
+}
+
+/* Indicateur visuel pour les cellules vides pendant le drop */
+.assignment-cell:empty.drag-over::after {
+    content: "↓";
+    color: var(--chc-blue-primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ================================
+   MENU CONTEXTUEL CHC - VERSION OPTIMISÉE (MAX 5 OPTIONS)
+   ================================ */
+
+/* Variables CHC pour le menu contextuel */
+:root {
+    --chc-context-blue: #1e3a8a;
+    --chc-context-red: #e53e3e;
+    --chc-context-yellow: #fbbf24;
+    --chc-context-gray-50: #f9fafb;
+    --chc-context-gray-100: #f3f4f6;
+    --chc-context-gray-200: #e5e7eb;
+    --chc-context-gray-300: #d1d5db;
+    --chc-context-gray-400: #9ca3af;
+    --chc-context-gray-500: #6b7280;
+    --chc-context-gray-600: #4b5563;
+    --chc-context-gray-700: #374151;
+    --chc-context-gray-800: #1f2937;
+}
+
+/* ================================
+   MENU PRINCIPAL - OPTIMISÉ SANS SCROLL
+   ================================ */
+
+.context-menu-chc {
+    position: fixed;
+    background: white;
+    border: 2px solid var(--chc-context-gray-300);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(30, 58, 138, 0.2);
+    z-index: 10000;
+    width: 320px;                  /* LARGEUR FIXE OPTIMISÉE */
+    max-height: 400px;             /* HAUTEUR MAXIMALE CONTRÔLÉE */
+    display: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;             /* IMPORTANT : empêche le dépassement */
+    animation: contextMenuFadeIn 0.2s ease-out;
+    transform-origin: top left;
+    box-sizing: border-box;
+}
+
+@keyframes contextMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ================================
+   EN-TÊTE DU MENU
+   ================================ */
+
+.context-menu-header-chc {
+    background: var(--chc-context-blue);
+    color: white;
+    padding: 12px 16px;            /* PADDING RÉDUIT */
+    font-weight: 600;
+    font-size: 0.85rem;            /* TAILLE RÉDUITE */
+    letter-spacing: 0.025em;
+    border-bottom: 1px solid var(--chc-context-gray-200);
+    position: relative;
+}
+
+.context-menu-title-chc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ================================
+   CONTENU DU MENU - AVEC SCROLL INTERNE
+   ================================ */
+
+.context-menu-content-chc {
+    /* Zone scrollable interne pour les listes longues */
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 0 12px 0;          /* PADDING BOTTOM AUGMENTÉ POUR PLUS D'ESPACE */
+    box-sizing: border-box;
+}
+
+.context-menu-loading-chc {
+    padding: 16px;                 /* PADDING RÉDUIT */
+    text-align: center;
+    color: var(--chc-context-gray-600);
+    font-style: italic;
+    font-size: 0.85rem;            /* TAILLE RÉDUITE */
+}
+
+.context-menu-loading-chc .fa-spinner {
+    margin-right: 8px;
+    color: var(--chc-context-blue);
+}
+
+/* ================================
+   ÉLÉMENTS DU MENU - OPTIMISÉS (MAX 5)
+   ================================ */
+
+.context-menu-item-chc {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;            /* PADDING RÉDUIT */
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.8rem;             /* TAILLE RÉDUITE */
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;        /* IMPORTANT : évite le dépassement */
+    min-height: 44px;              /* HAUTEUR MINIMALE CONTRÔLÉE */
+}
+
+/* Animation de survol optimisée */
+.context-menu-item-chc::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(30, 58, 138, 0.08), transparent);
+    transition: left 0.3s ease;    /* TRANSITION PLUS RAPIDE */
+}
+
+.context-menu-item-chc:hover:not(.disabled):not(.cancel)::before {
+    left: 100%;
+}
+
+.context-menu-item-chc:hover:not(.disabled):not(.cancel):not(.remove) {
+    background-color: var(--chc-context-gray-50);
+    border-left: 3px solid var(--chc-context-blue);  /* BORDURE PLUS FINE */
+    padding-left: 13px;            /* AJUSTEMENT PADDING */
+}
+
+.context-menu-item-chc.disabled {
+    color: var(--chc-context-gray-400);
+    cursor: not-allowed;
+    font-style: italic;
+}
+
+.context-menu-item-chc.error {
+    color: var(--chc-context-red);
+    cursor: default;
+}
+
+.context-menu-item-chc.cancel {
+    color: var(--chc-context-gray-600);
+    border-top: 1px solid var(--chc-context-gray-200);
+    font-weight: 500;
+    margin-top: 2px;               /* MARGE RÉDUITE */
+    margin-bottom: 0;              /* PAS DE MARGE BOTTOM */
+    box-sizing: border-box;
+}
+
+.context-menu-item-chc.cancel:hover {
+    background-color: #fee2e2;
+    border-left: 3px solid var(--chc-context-red);
+    color: var(--chc-context-red);
+}
+
+.context-menu-item-chc.remove:hover {
+    background-color: #fee2e2;
+    border-left: 3px solid var(--chc-context-red);
+    color: var(--chc-context-red);
+}
+
+.context-menu-separator-chc {
+    height: 1px;
+    background: var(--chc-context-gray-200);
+    margin: 4px 0 2px 0;           /* MARGE RÉDUITE, ESPACE BOTTOM RÉDUIT */
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+/* ================================
+   SUGGESTIONS D'EMPLOYÉS - OPTIMISÉES (MAX 5)
+   ================================ */
+
+   .employee-suggestion-chc {
+    display: flex;
+    align-items: center;
+    gap: 12px;                     /* GAP RÉDUIT */
+    width: 100%;
+}
+
+.employee-code-chc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;                   /* TAILLE RÉDUITE */
+    height: 32px;                  /* HAUTEUR RÉDUITE */
+    border-radius: 6px;            /* RAYON RÉDUIT */
+    font-weight: 700;
+    font-size: 0.75rem;            /* TAILLE POLICE RÉDUITE */
+    border: 2px solid;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* OMBRE RÉDUITE */
+    transition: all 0.2s ease;
+}
+
+.context-menu-item-chc:hover .employee-code-chc {
+    transform: scale(1.03);        /* SCALE RÉDUIT */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);  /* OMBRE RÉDUITE */
+}
+
+.employee-details-chc {
+    flex: 1;
+    min-width: 0;
+}
+
+.employee-name-chc {
+    font-weight: 600;
+    color: var(--chc-context-blue);
+    margin-bottom: 2px;            /* MARGE RÉDUITE */
+    font-size: 0.85rem;            /* TAILLE RÉDUITE */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+}
+
+.employee-qualification-chc {
+    font-size: 0.72rem;            /* TAILLE RÉDUITE */
+    color: var(--chc-context-gray-600);
+    line-height: 1.3;              /* LINE-HEIGHT RÉDUIT */
+    display: flex;
+    align-items: center;
+    gap: 4px;                      /* GAP RÉDUIT */
+    transition: color 0.2s ease;
+}
+
+.context-menu-item-chc:hover .employee-name-chc {
+    color: var(--chc-context-blue);
+}
+
+.context-menu-item-chc:hover .employee-qualification-chc {
+    color: var(--chc-context-gray-700);
+}
+
+/* ================================
+   INDICATEURS DE QUALIFICATION - COMPACTS
+   ================================ */
+
+.employee-qualification-chc::before {
+    content: '';
+    display: inline-block;
+    width: 8px;                    /* TAILLE RÉDUITE */
+    height: 8px;                   /* TAILLE RÉDUITE */
+    border-radius: 50%;
+    margin-right: 4px;             /* MARGE RÉDUITE */
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+/* Couleurs selon le niveau de qualification */
+.context-menu-item-chc[data-qualification="1"] .employee-qualification-chc::before {
+    background-color: #059669; /* Expert - Vert */
+    box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.3);  /* OMBRE RÉDUITE */
+}
+
+.context-menu-item-chc[data-qualification="2"] .employee-qualification-chc::before {
+    background-color: #0ea5e9; /* Avancé - Bleu */
+    box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.3);
+}
+
+.context-menu-item-chc[data-qualification="3"] .employee-qualification-chc::before {
+    background-color: #fbbf24; /* Intermédiaire - Jaune */
+    box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.3);
+}
+
+.context-menu-item-chc[data-qualification="4"] .employee-qualification-chc::before {
+    background-color: #f97316; /* Débutant - Orange */
+    box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.3);
+}
+
+.context-menu-item-chc[data-qualification="5"] .employee-qualification-chc::before {
+    background-color: #6b7280; /* Occasion - Gris */
+    box-shadow: 0 0 0 1px rgba(107, 114, 128, 0.3);
+}
+
+.context-menu-item-chc:hover .employee-qualification-chc::before {
+    transform: scale(1.1);         /* SCALE RÉDUIT */
+}
+
+/* ================================
+   ICÔNES ET ÉTATS
+   ================================ */
+
+.context-menu-item-chc .fa {
+    margin-right: 8px;             /* MARGE RÉDUITE */
+    width: 16px;                   /* LARGEUR RÉDUITE */
+    text-align: center;
+    color: var(--chc-context-gray-500);
+    transition: color 0.2s ease;
+    font-size: 0.8rem;             /* TAILLE RÉDUITE */
+}
+
+.context-menu-item-chc:hover .fa {
+    color: var(--chc-context-blue);
+}
+
+.context-menu-item-chc.cancel .fa {
+    color: var(--chc-context-red);
+}
+
+.context-menu-item-chc.error .fa {
+    color: var(--chc-context-red);
+}
+
+.context-menu-item-chc.disabled .fa {
+    color: var(--chc-context-gray-400);
+}
+
+/* ================================
+   AMÉLIORATIONS DES CELLULES POUR MENU CONTEXTUEL
+   ================================ */
+
+/* Indicateur visuel pour le clic droit */
+.assignment-cell {
+    position: relative;
+}
+
+.assignment-cell::after {
+    content: '';
+    position: absolute;
+    top: 2px;                      /* POSITION RÉDUITE */
+    right: 2px;                    /* POSITION RÉDUITE */
+    width: 0;
+    height: 0;
+    border: 4px solid transparent; /* TAILLE RÉDUITE */
+    border-top-color: var(--chc-context-gray-300);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.assignment-cell:hover::after {
+    opacity: 0.6;                  /* OPACITÉ RÉDUITE */
+}
+
+.assignment-cell:empty:hover::after {
+    border-top-color: var(--chc-context-blue);
+    opacity: 1;
+}
+
+/* Indicateur pour les cellules vides - VERSION COMPACTE */
+.assignment-cell:empty:hover {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(30, 58, 138, 0.02),   /* OPACITÉ RÉDUITE */
+        rgba(30, 58, 138, 0.02) 6px, /* TAILLE RÉDUITE */
+        transparent 6px,
+        transparent 12px           /* TAILLE RÉDUITE */
+    );
+}
+
+.assignment-cell:empty:hover::before {
+    content: "Clic droit";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.6rem;             /* TAILLE RÉDUITE */
+    color: var(--chc-context-blue);
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0.7;                  /* OPACITÉ RÉDUITE */
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 4px;              /* PADDING RÉDUIT */
+    border-radius: 3px;            /* RAYON RÉDUIT */
+    border: 1px solid var(--chc-context-gray-300);
+}
+
+/* ================================
+   NOTIFICATIONS STYLE CHC
+   ================================ */
+
+.notification {
+    animation: slideIn 0.4s ease;
+    border-radius: 12px;
+    border: 1px solid var(--chc-gray-200);
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+    color: var(--chc-blue-primary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.context-notification {
+    border-left: 4px solid var(--chc-context-blue);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.context-notification.alert-success {
+    border-left-color: #059669;
+    background: rgba(240, 253, 244, 0.95);
+}
+
+.context-notification.alert-error {
+    border-left-color: var(--chc-context-red);
+    background: rgba(254, 242, 242, 0.95);
+}
+
+.context-notification.alert-info {
+    border-left-color: #0ea5e9;
+    background: rgba(240, 249, 255, 0.95);
+}
+
+/* ================================
+   MODE GRAND ÉCRAN / TV
+   ================================ */
+
+@media (min-width: 1600px) {
+    /* Utiliser toute la largeur disponible sur une grande TV */
+    .planning-container {
+        max-width: 100%;
+    }
+
+    /* Colonne des sites / permanences plus lisible de loin sur grand écran */
+    .site-cell {
+        padding: 24px 22px 24px 40px; /* PADDING SUPPLÉMENTAIRE POUR ALIGNEMENT SUR GRAND ÉCRAN */
+        font-size: 1.35rem;        /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+        font-weight: 800;          /* FONT-WEIGHT AUGMENTÉ */
+    }
+
+    .site-name {
+        gap: 12px;                 /* GAP AUGMENTÉ POUR GRAND ÉCRAN */
+    }
+
+    .site-fullname {
+        font-size: 1.3rem;         /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+        font-weight: 800;          /* FONT-WEIGHT AUGMENTÉ */
+    }
+
+    .permanence-cell {
+        padding: 18px 20px 18px 40px; /* PADDING SUPPLÉMENTAIRE POUR ALIGNEMENT SUR GRAND ÉCRAN */
+        font-size: 1.15rem;        /* TAILLE POLICE SIGNIFICATIVEMENT AUGMENTÉE POUR GRAND ÉCRAN */
+        font-weight: 700;          /* FONT-WEIGHT AUGMENTÉ */
+        color: var(--chc-gray-800); /* COULEUR ENCORE PLUS ASSOMBRIE POUR CONTRASTE */
+    }
+
+    .permanence-name {
+        font-weight: 700;          /* FONT-WEIGHT AUGMENTÉ */
+        letter-spacing: 0.04em;    /* LETTER-SPACING AUGMENTÉ POUR GRAND ÉCRAN */
+    }
+
+    .site-badge {
+        width: 42px;               /* TAILLE AUGMENTÉE POUR GRAND ÉCRAN */
+        height: 42px;
+        font-size: 1rem;           /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+        font-weight: 800;          /* FONT-WEIGHT AUGMENTÉ */
+    }
+
+    .assignment-row {
+        height: 56px;
+    }
+
+    .week-title {
+        font-size: 1.6rem;
+    }
+
+    .planning-table {
+        font-size: 1rem;
+        min-width: 1200px;
+    }
+
+    /* En-têtes de jours plus lisibles sur grand écran */
+    .header-row th {
+        padding: 28px 20px;        /* PADDING SIGNIFICATIVEMENT AUGMENTÉ POUR GRAND ÉCRAN */
+        font-size: 1.2rem;         /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+    }
+
+    /* Sites / Permanences agrandi comme les jours sur grand écran */
+    .header-row th:first-child {
+        font-size: 1.35rem;        /* TAILLE POLICE AUGMENTÉE COMME LES JOURS */
+        font-weight: 800;          /* FONT-WEIGHT AUGMENTÉ POUR LISIBILITÉ */
+        letter-spacing: 0.05em;    /* LETTER-SPACING POUR COHÉRENCE */
+        padding-left: 32px;        /* PADDING GAUCHE POUR ESPACEMENT SUR GRAND ÉCRAN */
+    }
+
+    .day-name {
+        font-size: 1.35rem;        /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+    }
+
+    .day-date {
+        font-size: 1.25rem;        /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+        margin-top: 6px;           /* MARGIN-TOP AUGMENTÉ POUR MEILLEUR ESPACEMENT */
+    }
+
+    /* AM/PM encore plus visibles sur grand écran (sans bold) */
+    .period-row th {
+        padding: 18px 16px;        /* PADDING AUGMENTÉ POUR GRAND ÉCRAN */
+        font-size: 1.4rem;         /* TAILLE POLICE SIGNIFICATIVEMENT AUGMENTÉE */
+        font-weight: 400;          /* FONT-WEIGHT NORMAL (SANS BOLD) */
+        letter-spacing: 0.1em;     /* LETTER-SPACING AUGMENTÉ */
+    }
+
+    /* Colonnes de jours plus larges (meilleure utilisation de l'espace) */
+    .assignment-cell {
+        min-width: 70px;
+        max-width: 70px;
+        width: 70px;
+        height: 56px;
+    }
+
+    /* Séparation AM / PM plus marquée au centre de chaque jour */
+    .am-cell {
+        border-right: 3px solid var(--chc-gray-300);
+    }
+
+    .full-day-cell {
+        min-width: 140px;
+        max-width: 140px;
+        width: 140px;
+    }
+
+    /* Codes employés plus grands et mieux centrés sur grand écran */
+    .assignment-code {
+        font-size: 1.05rem;        /* TAILLE POLICE AUGMENTÉE POUR GRAND ÉCRAN */
+        font-weight: 700;          /* FONT-WEIGHT AUGMENTÉ */
+        padding: 8px 10px;
+        max-width: 90%;
+        letter-spacing: 0.035em;   /* LETTER-SPACING AUGMENTÉ POUR GRAND ÉCRAN */
+    }
+
+    /* Séparation entre les jours beaucoup plus visible (fin de journée PM) */
+    .pm-cell {
+        border-right: 4px solid var(--chc-blue-primary);
+    }
+
+    .header-row th.day-column {
+        border-right: 4px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .header-row th.day-column:last-child {
+        border-right: none;
+    }
+}
+
+/* ================================
+   RESPONSIVE CHC - AJUSTÉ
+   ================================ */
+
+@media (max-width: 1400px) {
+    .planning-container {
+        max-width: 85%;            /* PLUS LARGE SUR ÉCRANS MOYENS */
+    }
+}
+
+@media (max-width: 1200px) {
+    .planning-container {
+        max-width: 95%;            /* PRESQUE PLEINE LARGEUR SUR PETITS ÉCRANS */
+    }
+    
+    .planning-table {
+        font-size: 0.8rem;
+        min-width: 800px;          /* LARGEUR MINIMALE RÉDUITE */
+    }
+    
+    .week-title {
+        font-size: 1.2rem;
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .planning-container {
+        max-width: 100%;           /* PLEINE LARGEUR SUR MOBILE */
+        padding: 12px;             /* PADDING RÉDUIT */
+    }
+    
+    .week-navigator {
+        padding: 12px;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .assignment-cell {
+        min-width: 45px;
+        height: 36px;
+    }
+    
+    .assignment-code {
+        max-width: 38px;
+        padding: 4px 6px;
+        font-size: 0.65rem;
+    }
+    
+    .extended-indicator-wrapper {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .extended-indicator {
+        width: 14px;
+        height: 14px;
+        font-size: 0.6rem;
+    }
+
+    /* MENU CONTEXTUEL RESPONSIVE */
+    .context-menu-chc {
+        width: 280px;              /* LARGEUR RÉDUITE MOBILE */
+        max-width: 90vw;
+    }
+    
+    .context-menu-item-chc {
+        padding: 12px 14px;        /* PADDING AJUSTÉ */
+        font-size: 0.85rem;        /* TAILLE AJUSTÉE */
+    }
+    
+    .employee-code-chc {
+        width: 44px !important;    /* TAILLE MOBILE */
+        height: 28px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    .employee-name-chc {
+        font-size: 0.8rem;
+    }
+    
+    .employee-qualification-chc {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .context-menu-chc {
+        width: 260px;              /* LARGEUR TRÈS RÉDUITE */
+        max-width: 95vw;
+    }
+    
+    .context-menu-header-chc {
+        padding: 10px 14px;        /* PADDING TRÈS RÉDUIT */
+        font-size: 0.8rem;
+    }
+    
+    .context-menu-item-chc {
+        padding: 10px 14px;        /* PADDING TRÈS RÉDUIT */
+    }
+}
+
+/* ================================
+   STYLES POUR L'IMPRESSION
+   ================================ */
+
+@media print {
+    .planning-container {
+        background: white;
+        max-width: 100%;           /* PLEINE LARGEUR POUR L'IMPRESSION */
+    }
+
+    /* Entêtes de jours plus lisibles à l'impression */
+    .header-row th {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+
+    .day-name {
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+    }
+
+    .day-date {
+        font-size: 0.9rem;
+        font-weight: 700;
+        opacity: 1;
+    }
+
+    /* Meilleur alignement vertical des capsules dans le PDF */
+    .assignment-cell {
+        height: 36px;
+        padding: 4px;
+        vertical-align: middle;
+    }
+
+    .assignment-wrapper {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .assignment-code {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    .week-navigator {
+        display: none;
+    }
+    
+    .extended-indicator {
+        background-color: var(--chc-gray-800) !important;
+        color: white !important;
+    }
+    
+    .context-menu-chc {
+        display: none !important;
+    }
+    
+    .context-notification {
+        display: none !important;
+    }
+}
