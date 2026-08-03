@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="chc_cds_planning.VisualPlanningClientAction">
+        <div class="o_content" style="height: 100%;">
+            <iframe t-ref="iframe"
+                style="width: 100%; height: calc(100vh - 16px); border: 0;"
+                referrerpolicy="no-referrer"
+                loading="lazy"/>
+        </div>
+    </t>
+</templates>
+
