@@ -16,7 +16,9 @@
                 <field name="friday_pm_fct" sum="Total FCT" />
                 <field name="friday_pm_tch" sum="Total TCH" />
                 <field name="friday_pm_total" sum="Total PM MLE" />
-                <field name="rotation_counter" sum="Total rotation" />
+                <field name="rotation_counter_fct" sum="Rotation FCT" optional="show" />
+                <field name="rotation_counter_tch" sum="Rotation TCH" optional="show" />
+                <field name="rotation_counter" sum="Rotation total" optional="hide" />
                 <field name="deviation_from_avg" optional="show" />
                 <field name="last_friday_pm_date" optional="hide" />
                 <field name="stats_year" optional="hide" />

@@ -36,9 +36,17 @@ class PlanningPresenceStats(models.Model):
         compute="_compute_friday_pm_total",
         store=True,
     )
+    rotation_counter_fct = fields.Integer(
+        string="Compteur rotation FCT",
+        help="Compteur persistant vendredis PM fonctionnel",
+    )
+    rotation_counter_tch = fields.Integer(
+        string="Compteur rotation TCH",
+        help="Compteur persistant vendredis PM technique",
+    )
     rotation_counter = fields.Integer(
-        string="Compteur rotation",
-        help="Compteur persistant utilisé par le générateur mensuel",
+        string="Compteur rotation total",
+        help="Total des compteurs de rotation FCT + TCH",
     )
     last_friday_pm_date = fields.Date(string="Dernier vendredi PM MLE")
     is_rotation_eligible = fields.Boolean(
@@ -120,6 +128,10 @@ class PlanningPresenceStats(models.Model):
         if not mle_site:
             return self._open_stats_action(year)
 
+        self.env[
+            "chc_cds_planning.friday_rotation_counter"
+        ].rebuild_from_assignments(year)
+
         self.search([("stats_year", "=", year)]).unlink()
 
         employees = self.env["hr.employee"].search([])
@@ -149,6 +161,12 @@ class PlanningPresenceStats(models.Model):
                     "total_presence": total_presence,
                     "friday_pm_fct": friday_pm_fct,
                     "friday_pm_tch": friday_pm_tch,
+                    "rotation_counter_fct": (
+                        counter_record.counter_fct if counter_record else 0
+                    ),
+                    "rotation_counter_tch": (
+                        counter_record.counter_tch if counter_record else 0
+                    ),
                     "rotation_counter": counter_record.counter if counter_record else 0,
                     "last_friday_pm_date": (
                         counter_record.last_assignment_date if counter_record else False
