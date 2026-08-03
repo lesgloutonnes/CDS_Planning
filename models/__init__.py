@@ -10,6 +10,7 @@ from . import (
     monthly_planning_generator,
     permanence_type,
     planning_assignment,
+    planning_presence_stats,
     planning_template,
     planning_weekly,
     res_users,

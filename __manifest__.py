@@ -22,6 +22,7 @@
         "views/planning_templates.xml",
         "views/planning_report.xml",
         "views/monthly_planning_generator_views.xml",
+        "views/planning_stats_views.xml",
         "wizard/planning_template_wizard_views.xml",
         "wizard/planning_confirm_override_wizard_views.xml",
         "wizard/public_holidays_import_wizard_views.xml",
