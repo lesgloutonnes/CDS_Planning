@@ -1,6 +1,8 @@
 from odoo import api, fields, models
 from markupsafe import Markup
 
+from ..utils.friday_rotation import is_friday_pm_mle_assignment
+
 # Sites « On Site » distants (TCH : horaires et libellé calendrier dédiés)
 ISOLATED_ON_SITE_CODES = frozenset({"HEU", "HRM", "WAR"})
 
@@ -174,6 +176,7 @@ class PlanningAssignment(models.Model):
                         )
                     )
 
+        self._sync_friday_counters_if_needed(records)
         return records
 
     def write(self, vals):
@@ -186,6 +189,7 @@ class PlanningAssignment(models.Model):
             'day': 'Jour',
             'notes': 'Notes',
         }
+        friday_pm_before = self.filtered(is_friday_pm_mle_assignment)
         for record in self:
             old_values[record.id] = {
                 field: getattr(record, field) for field in tracked_fields
@@ -214,11 +218,18 @@ class PlanningAssignment(models.Model):
                     + "<br/>".join(f"   {change}" for change in changes)
                 )
                 record.planning_week_id.message_post(body=body)
+        friday_pm_after = self.filtered(is_friday_pm_mle_assignment)
+        self._sync_friday_counters_if_needed(friday_pm_before | friday_pm_after)
         return result
     
     def unlink(self):
+        friday_pm_records = self.filtered(is_friday_pm_mle_assignment)
+        needs_sync = bool(friday_pm_records)
         if self.env.context.get('skip_tracking'):
-            return super().unlink()
+            result = super().unlink()
+            if needs_sync:
+                self._sync_friday_counters_if_needed(friday_pm_records)
+            return result
 
         messages = []
         for record in self:
@@ -236,7 +247,17 @@ class PlanningAssignment(models.Model):
         result = super().unlink()
         for planning, msg in messages:
             planning.message_post(body=msg)
+        self._sync_friday_counters_if_needed(friday_pm_records)
         return result
+
+    @api.model
+    def _sync_friday_counters_if_needed(self, records):
+        if self.env.context.get("skip_friday_counter_sync"):
+            return
+        if records:
+            self.env[
+                "chc_cds_planning.friday_rotation_counter"
+            ].sync_after_assignment_change()
 
     @api.depends("period", "permanence_type_id", "site_id")
     def _onchange_period_times(self):

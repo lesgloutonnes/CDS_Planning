@@ -3,6 +3,12 @@ from datetime import date, timedelta
 
 from odoo import fields, models
 
+from ..utils.friday_rotation import (
+    find_best_friday_pm_candidate,
+    get_friday_date,
+    is_friday_pm_mle_assignment,
+)
+
 
 class MonthlyPlanningGenerator(models.TransientModel):
     _name = "chc_cds_planning.monthly_planning_generator"
@@ -106,6 +112,13 @@ class MonthlyPlanningGenerator(models.TransientModel):
             # 7. Rapport de génération
             report = self._generate_report(rotation_state, replacements_log)
 
+            # 8. Synchroniser les compteurs depuis les affectations réelles
+            self.env[
+                "chc_cds_planning.friday_rotation_counter"
+            ].with_context(skip_friday_counter_sync=True).rebuild_from_assignments(
+                self.year
+            )
+
             # Ajouter une info si des compteurs de rotation ont été réinitialisés
             if reset_count:
                 report_suffix = (
@@ -161,29 +174,16 @@ class MonthlyPlanningGenerator(models.TransientModel):
     def _initialize_rotation_state(self):
         """Initialise l'état de rotation pour le vendredi PM MLE en chargeant les compteurs persistants"""
         employees = self._get_available_employees()
-
-        # Exclure JUAPE de la rotation (il ne fait pas partie de la rotation du vendredi)
         employees_for_rotation = employees.filtered(
             lambda e: e.employee_code != "JUAPE"
         )
 
-        # Charger les compteurs persistants depuis la base de données
-        employee_friday_pm_mle = {}
-        for emp in employees_for_rotation:
-            counter_record = self.env["chc_cds_planning.friday_rotation_counter"].search(
-                [("employee_id", "=", emp.id)], limit=1
-            )
-
-            if counter_record:
-                employee_friday_pm_mle[emp.id] = counter_record.counter
-            else:
-                employee_friday_pm_mle[emp.id] = 0
-
-        return {
-            "employee_friday_pm_mle": employee_friday_pm_mle,
-            "friday_pm_mle_assigned": set(),  # Réinitialisé chaque semaine
-            "employees": employees_for_rotation,
-        }
+        rotation_state = self.env[
+            "chc_cds_planning.friday_rotation_counter"
+        ].load_rotation_state(employees_for_rotation)
+        rotation_state["employees"] = employees_for_rotation
+        rotation_state["_is_available_fn"] = self._is_employee_available
+        return rotation_state
 
     def _get_default_template(self):
         """Retourne le template de planning par défaut"""
@@ -294,9 +294,9 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
         # Créer toutes les affectations
         if assignments_to_create:
-            created_assignments = self.env["chc_cds_planning.planning_assignment"].with_context(skip_tracking=True).create(
-                assignments_to_create
-            )
+            created_assignments = self.env["chc_cds_planning.planning_assignment"].with_context(
+                skip_tracking=True, skip_friday_counter_sync=True
+            ).create(assignments_to_create)
 
             # Appliquer la rotation vendredi PM MLE (équilibrage par employé)
             self._apply_friday_rotation(
@@ -337,11 +337,15 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
             # Calculer score : priorité de qualification (plus bas = meilleur)
             priority_score = int(qualification[0].priority)
-            friday_pm_score = rotation_state.get("employee_friday_pm_mle", {}).get(
-                emp.id, 0
-            )
+            friday_pm_score = 0
+            if (
+                current_date.weekday() == 4
+                and site.code == "MLE"
+                and permanence_type.code in ["FCT", "TCH"]
+            ):
+                counter_key = f"employee_friday_pm_{permanence_type.code.lower()}"
+                friday_pm_score = rotation_state.get(counter_key, {}).get(emp.id, 0)
 
-            # Score composite
             composite_score = priority_score + (friday_pm_score * 2.0)
             candidates.append((emp, composite_score))
 
@@ -355,171 +359,66 @@ class MonthlyPlanningGenerator(models.TransientModel):
     def _apply_friday_rotation(
         self, assignments, week_start, rotation_state, replacements_log
     ):
-        """Applique la rotation équilibrée pour vendredi PM MLE (tech et fonct)"""
-
-        # Filtrer les affectations vendredi PM MLE
-        friday_pm_assignments = assignments.filtered(
-            lambda a: a.day == "friday"
-            and (a.period or "").replace(" ", "").lower() == "pm"
-            and a.site_id.code == "MLE"
-            and a.permanence_type_id.code in ["TCH", "FCT"]
-        )
-
+        """Applique la rotation équitable pour vendredi PM MLE (FCT et TCH séparés)."""
+        friday_pm_assignments = assignments.filtered(is_friday_pm_mle_assignment)
         if not friday_pm_assignments:
             return
 
-        # Pour chaque affectation vendredi PM MLE
-        for assignment in friday_pm_assignments:
-            current_employee = assignment.employee_id
+        friday_date = get_friday_date(week_start)
 
-            # Exclure JUAPE de la rotation : s'il est assigné, on ne fait rien
-            if current_employee.employee_code == "JUAPE":
+        for perm_code in ("FCT", "TCH"):
+            type_assignments = friday_pm_assignments.filtered(
+                lambda a, code=perm_code: a.permanence_type_id.code == code
+            )
+            if not type_assignments:
                 continue
 
-            # Vérifier si cet employé a déjà fait beaucoup de vendredis PM MLE ce mois
-            # et s'il y a quelqu'un de moins sollicité disponible
-            current_count = rotation_state["employee_friday_pm_mle"].get(
-                current_employee.id, 0
-            )
+            assignment = type_assignments[0]
+            counter_key = f"employee_friday_pm_{perm_code.lower()}"
+            last_dates_key = f"last_{perm_code.lower()}_dates"
 
-            # Chercher un remplaçant potentiellement moins sollicité
-            replacement = self._find_friday_replacement(
-                assignment.site_id,
-                assignment.permanence_type_id,
-                week_start,
+            best_candidate = find_best_friday_pm_candidate(
+                self.env,
+                perm_code,
+                friday_date,
                 rotation_state,
-                current_employee.id,
-                current_count,
             )
 
-            if replacement:
-                original_name = current_employee.name
-                assignment.with_context(skip_tracking=True).write({"employee_id": replacement.id})
-                rotation_state["friday_pm_mle_assigned"].add(replacement.id)
-                rotation_state["employee_friday_pm_mle"][replacement.id] = (
-                    rotation_state["employee_friday_pm_mle"].get(replacement.id, 0) + 1
+            if best_candidate:
+                original_employee = assignment.employee_id
+                original_count = rotation_state[counter_key].get(
+                    original_employee.id, 0
                 )
 
-                # Mettre à jour le compteur persistant
-                self._update_persistent_counter(
-                    replacement.id,
-                    rotation_state["employee_friday_pm_mle"][replacement.id],
-                    week_start,
+                if best_candidate.id != original_employee.id:
+                    assignment.with_context(
+                        skip_tracking=True, skip_friday_counter_sync=True
+                    ).write({"employee_id": best_candidate.id})
+                    replacements_log.append(
+                        f"🔄 Rotation vendredi {perm_code}: {original_employee.name} "
+                        f"({original_count}x) → {best_candidate.name} "
+                        f"({rotation_state[counter_key].get(best_candidate.id, 0)}x)"
+                    )
+
+                assigned = assignment.employee_id
+                rotation_state["friday_pm_mle_assigned"].add(assigned.id)
+                rotation_state[counter_key][assigned.id] = (
+                    rotation_state[counter_key].get(assigned.id, 0) + 1
                 )
-
-                replacements_log.append(
-                    f"🔄 Rotation vendredi: {original_name} ({current_count}x) → {replacement.name} ({rotation_state['employee_friday_pm_mle'][replacement.id]-1}x) - {assignment.permanence_type_id.name} {assignment.period}"
-                )
-            else:
-                # Garder l'employé actuel
-                rotation_state["friday_pm_mle_assigned"].add(current_employee.id)
-                rotation_state["employee_friday_pm_mle"][current_employee.id] = (
-                    rotation_state["employee_friday_pm_mle"].get(current_employee.id, 0)
-                    + 1
-                )
-
-                # Mettre à jour le compteur persistant
-                self._update_persistent_counter(
-                    current_employee.id,
-                    rotation_state["employee_friday_pm_mle"][current_employee.id],
-                    week_start,
-                )
-
-    def _find_friday_replacement(
-        self,
-        site,
-        permanence_type,
-        week_start,
-        rotation_state,
-        current_emp_id,
-        current_count,
-    ):
-        """Trouve un remplaçant pour vendredi PM moins sollicité que l'employé actuel"""
-        employees = rotation_state["employees"]
-        friday_date = week_start + timedelta(days=4)  # Vendredi
-
-        candidates = []
-        for emp in employees:
-            # Ne pas re-prendre l'employé actuel
-            if emp.id == current_emp_id:
-                continue
-
-            # Exclure JUAPE de la rotation (il ne fait pas partie de la rotation du vendredi)
-            if emp.employee_code == "JUAPE":
-                continue
-
-            # Ne pas prendre ceux qui ont déjà fait vendredi PM MLE cette semaine
-            if emp.id in rotation_state["friday_pm_mle_assigned"]:
-                continue
-
-            # Vérifier disponibilité
-            if not self._is_employee_available(emp, friday_date):
-                continue
-
-            # Vérifier qualification
-            qualification = emp.qualification_ids.filtered(
-                lambda q: q.permanence_type_id.id == permanence_type.id
-                and q.site_id.id == site.id
-            )
-            if not qualification:
-                continue
-
-            # Calculer score : priorité + pénalité si déjà fait vendredi PM MLE ce mois
-            priority_score = int(qualification[0].priority)
-            friday_pm_count = rotation_state.get("employee_friday_pm_mle", {}).get(
-                emp.id, 0
-            )
-
-            # Ne remplacer que si l'employé de remplacement a fait MOINS de vendredis PM MLE
-            if friday_pm_count >= current_count:
-                continue
-
-            # Forte pénalité pour ceux qui en ont déjà fait
-            composite_score = priority_score + (friday_pm_count * 10.0)
-            candidates.append((emp, composite_score, friday_pm_count))
-
-        if not candidates:
-            return None
-
-        # Trier par score (plus bas = meilleur)
-        candidates.sort(key=lambda x: x[1])
-        return candidates[0][0]
-
-    def _update_persistent_counter(self, employee_id, new_count, assignment_date):
-        """Met à jour le compteur persistant d'un employé"""
-        counter_record = self.env["chc_cds_planning.friday_rotation_counter"].search(
-            [("employee_id", "=", employee_id)], limit=1
-        )
-
-        if counter_record:
-            counter_record.write(
-                {
-                    "counter": new_count,
-                    "last_assignment_date": assignment_date
-                    + timedelta(days=4),  # Vendredi
-                }
-            )
-        else:
-            self.env["chc_cds_planning.friday_rotation_counter"].create(
-                {
-                    "employee_id": employee_id,
-                    "counter": new_count,
-                    "last_assignment_date": assignment_date + timedelta(days=4),
-                }
-            )
+                rotation_state[last_dates_key][assigned.id] = friday_date
 
     def _generate_report(self, rotation_state, replacements_log):
         """Génère un rapport de génération concis"""
-        friday_pm_mle = rotation_state.get("employee_friday_pm_mle", {})
+        fct_counts = rotation_state.get("employee_friday_pm_fct", {})
+        tch_counts = rotation_state.get("employee_friday_pm_tch", {})
 
         report_parts = []
 
-        # Statistiques vendredi PM MLE (résumé uniquement)
-        total_friday_pm = sum(friday_pm_mle.values())
-        if total_friday_pm > 0:
-            non_zero = [item for item in friday_pm_mle.items() if item[1] > 0]
+        total_fct = sum(fct_counts.values())
+        total_tch = sum(tch_counts.values())
+        if total_fct or total_tch:
             report_parts.append(
-                f"Rotation vendredi: {total_friday_pm} affectations sur {len(non_zero)} employés"
+                f"Rotation vendredi: {total_fct} FCT + {total_tch} TCH"
             )
 
         # Résumé des remplacements
@@ -594,7 +493,9 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
                     if replacement:
                         old_employee_name = am_assignment[0].employee_id.name
-                        am_assignment[0].with_context(skip_tracking=True).write({"employee_id": replacement.id})
+                        am_assignment[0].with_context(
+                            skip_tracking=True, skip_friday_counter_sync=True
+                        ).write({"employee_id": replacement.id})
                         replacements_log.append(
                             f"🔄 Vendredi AM: {old_employee_name} (déjà en PM) → {replacement.name}"
                         )
@@ -715,7 +616,9 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
                         if replacement:
                             old_employee_name = duplicate.employee_id.name
-                            duplicate.with_context(skip_tracking=True).write({"employee_id": replacement.id})
+                            duplicate.with_context(
+                                skip_tracking=True, skip_friday_counter_sync=True
+                            ).write({"employee_id": replacement.id})
                             replacements_log.append(
                                 f"🔄 Doublon corrigé {day}: {old_employee_name} (déjà assigné) → {replacement.name} "
                                 f"({duplicate.site_id.code} {duplicate.permanence_type_id.name} {duplicate.period})"
@@ -723,7 +626,9 @@ class MonthlyPlanningGenerator(models.TransientModel):
                         else:
                             # Aucun remplaçant trouvé, on supprime l'affectation en doublon
                             old_employee_name = duplicate.employee_id.name
-                            duplicate.with_context(skip_tracking=True).unlink()
+                            duplicate.with_context(
+                                skip_tracking=True, skip_friday_counter_sync=True
+                            ).unlink()
                             replacements_log.append(
                                 f"⚠️ Doublon supprimé {day}: {old_employee_name} déjà assigné ce jour-là, "
                                 f"aucun remplaçant trouvé pour {duplicate.site_id.code} {duplicate.permanence_type_id.name} {duplicate.period}"

@@ -871,7 +871,12 @@ class PlanningController(http.Controller):
                 counters = request.env[
                     "chc_cds_planning.friday_rotation_counter"
                 ].search([])
-                friday_counters = {c.employee_id.id: c.counter for c in counters}
+                counter_field = (
+                    "counter_fct" if permanence_type.code == "FCT" else "counter_tch"
+                )
+                friday_counters = {
+                    c.employee_id.id: getattr(c, counter_field) for c in counters
+                }
 
             suggestions = []
             for emp in qualified_employees:
