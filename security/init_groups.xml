@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- Utilisateur Planning -->
+    <record id="group_planning_user" model="res.groups">
+        <field name="name">Planning – Utilisateur</field>
+        <field name="category_id" ref="base.module_category_services"/>
+        <!-- user interne minimum -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Admin Planning -->
+    <record id="group_planning_admin" model="res.groups">
+        <field name="name">Planning – Administrateur</field>
+        <field name="category_id" ref="base.module_category_services"/>
+    </record>
+
+</odoo>
