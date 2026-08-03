@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="visual_planning_template">
+        <!-- Template embarqué (iframe) : le bandeau Odoo est fourni par le webclient hôte -->
+        <t t-call="web.layout">
+            <t t-set="title">Planning - <t t-esc="planning.name" /></t>
+            <t t-set="head">
+                <meta name="csrf-token" t-att-content="request.csrf_token()" />
+                <link rel="stylesheet" href="/chc_cds_planning/static/src/css/planning_visual.css" />
+                <script type="text/javascript"> // Exposer l'état du planning au JavaScript
+                    window.PLANNING_STATE = '<t t-esc="planning_state" />'; window.IS_PLANNING_DRAFT
+                    = (window.PLANNING_STATE === 'draft');
+                    window.IS_EMBEDDED = <t t-esc="is_embedded and 'true' or 'false'" />;
+                    window.USER_LOGIN = '<t t-esc="user_login" />';
+                    window.CAN_IDLE_AUTO_REFRESH = <t t-esc="can_idle_auto_refresh and 'true' or 'false'" />;
+                </script>
+                <script type="text/javascript"
+                    src="/chc_cds_planning/static/src/js/planning_visual.js?v=20260423-2" />
+            </t>
+            <div class="container-fluid planning-container">
+                <!-- En-tête avec navigation et actions -->
+                <div class="row mb-3" t-if="not is_export">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                            </div>
+                            <h2 class="text-center mb-0">
+                                <div
+                                    class="week-navigator d-flex align-items-center justify-content-center">
+                                    <t t-if="has_prev and not is_export">
+                                        <a t-att-href="'/web/planning/' + str(prev_planning_id) + (is_embedded and '?embedded=1' or '')"
+                                            class="btn btn-outline-secondary btn-sm me-2">
+                                            <svg width="16" height="16" viewBox="0 0 16 16"
+                                                fill="currentColor">
+                                                <path
+                                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                                            </svg>
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="btn btn-outline-secondary btn-sm me-2 disabled">
+                                            <svg width="16" height="16" viewBox="0 0 16 16"
+                                                fill="currentColor">
+                                                <path
+                                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                                            </svg>
+                                        </span>
+                                    </t>
+
+                                    <span class="week-title">
+                                        <span t-if="planning.start_date and planning.end_date">
+                                            Semaine du <t t-esc="planning.start_date"
+                                                t-options="{'widget': 'date', 'format': 'dd/MM/yyyy'}" />
+                                            au <t t-esc="planning.end_date"
+                                                t-options="{'widget': 'date', 'format': 'dd/MM/yyyy'}" />
+                                        </span>
+                                        <span t-else="">Planning sans dates</span>
+                                    </span>
+
+                                    <t t-if="has_next and not is_export">
+                                        <a t-att-href="'/web/planning/' + str(next_planning_id) + (is_embedded and '?embedded=1' or '')"
+                                            class="btn btn-outline-secondary btn-sm ms-2">
+                                            <svg width="16" height="16" viewBox="0 0 16 16"
+                                                fill="currentColor">
+                                                <path
+                                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                                            </svg>
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="btn btn-outline-secondary btn-sm ms-2 disabled">
+                                            <svg width="16" height="16" viewBox="0 0 16 16"
+                                                fill="currentColor">
+                                                <path
+                                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                                            </svg>
+                                        </span>
+                                    </t>
+                                </div>
+                            </h2>
+                            <div>
+                                <!-- Boutons Imprimer et Exporter retirés -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message d'information si aucune donnée -->
+                <div class="row mb-3" t-if="not table_rows">
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <h5><i class="fa fa-exclamation-triangle"></i> Aucune donnée disponible</h5>
+                            <p>Ce planning ne contient pas encore d'affectations. Vous pouvez :</p>
+                            <ul>
+                                <li>Créer des affectations dans la vue standard du planning</li>
+                                <li>Utiliser le générateur automatique de planning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau principal du planning -->
+                <div class="planning-table-container" t-if="table_rows">
+                    <table class="planning-table">
+                        <thead>
+                            <!-- En-tête principal avec les jours -->
+                            <tr class="header-row">
+                                <th class="site-column">Activités</th>
+                                <t t-if="days" t-foreach="days" t-as="day">
+                                    <th colspan="2" t-attf-class="day-column #{day.get('is_holiday') and 'holiday-day' or ''}">
+                                        <t t-if="day.get('is_holiday') and day.get('holiday_emojis')">
+                                            <div class="holiday-emoji">
+                                                <t t-esc="' '.join(day['holiday_emojis'])" />
+                                            </div>
+                                        </t>
+                                        <div class="day-name">
+                                            <t t-esc="day['name']" />
+                                        </div>
+                                        <div class="day-date">
+                                            <t t-esc="day['date_formatted']" />
+                                        </div>
+                                    </th>
+                                </t>
+                                <!-- En-tête par défaut si pas de jours -->
+                                <t t-if="not days">
+                                    <th colspan="2" class="day-column">
+                                        <div class="day-name">Lundi</div>
+                                        <div class="day-date">--/--</div>
+                                    </th>
+                                    <th colspan="2" class="day-column">
+                                        <div class="day-name">Mardi</div>
+                                        <div class="day-date">--/--</div>
+                                    </th>
+                                    <th colspan="2" class="day-column">
+                                        <div class="day-name">Mercredi</div>
+                                        <div class="day-date">--/--</div>
+                                    </th>
+                                    <th colspan="2" class="day-column">
+                                        <div class="day-name">Jeudi</div>
+                                        <div class="day-date">--/--</div>
+                                    </th>
+                                    <th colspan="2" class="day-column">
+                                        <div class="day-name">Vendredi</div>
+                                        <div class="day-date">--/--</div>
+                                    </th>
+                                </t>
+                            </tr>
+                            <!-- Sous-en-tête AM/PM -->
+                            <tr class="period-row">
+                                <th></th>
+                                <t t-if="days" t-foreach="days" t-as="day">
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                </t>
+                                <!-- Périodes par défaut si pas de jours -->
+                                <t t-if="not days">
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                    <th class="am-period">AM</th>
+                                    <th class="pm-period">PM</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- DONNÉES DYNAMIQUES AVEC assignment_id -->
+                            <t t-foreach="table_rows" t-as="row">
+
+                                <!-- SITES ISOLÉS (HRM, HEU, WAR) -->
+                                <t t-if="row['type'] == 'site_header'">
+                                    <tr class="assignment-row">
+                                        <td class="site-cell">
+                                            <div class="site-name">
+                                                <span class="site-fullname">
+                                                    <t t-esc="row['site']['name']" />
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <!-- Colonnes AM/PM pour chaque jour avec gestion FULL
+                                        (colspan=2) -->
+                                        <t t-foreach="row['days_assignments']" t-as="day_data">
+                                            <t
+                                                t-if="day_data['am'] and day_data['am'].get('period') == 'full'">
+                                                <td t-attf-class="assignment-cell full-day-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}"
+                                                    colspan="2">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-color="day_data['am']['color']"
+                                                            t-att-data-employee-id="day_data['am']['employee_id']"
+                                                            t-att-data-assignment-id="day_data['am']['assignment_id']">
+                                                            <t t-esc="day_data['am']['code']" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <!-- AM -->
+                                                <td t-attf-class="assignment-cell am-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                    <t t-if="day_data['am']">
+                                                        <div class="assignment-wrapper">
+                                                            <div class="assignment-code"
+                                                                t-att-data-color="day_data['am']['color']"
+                                                                t-att-data-employee-id="day_data['am']['employee_id']"
+                                                                t-att-data-assignment-id="day_data['am']['assignment_id']">
+                                                                <t t-esc="day_data['am']['code']" />
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <!-- PM -->
+                                                <td t-attf-class="assignment-cell pm-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                    <t t-if="day_data['pm']">
+                                                        <div class="assignment-wrapper">
+                                                            <div class="assignment-code"
+                                                                t-att-data-color="day_data['pm']['color']"
+                                                                t-att-data-employee-id="day_data['pm']['employee_id']"
+                                                                t-att-data-assignment-id="day_data['pm']['assignment_id']">
+                                                                <t t-esc="day_data['pm']['code']" />
+                                                            </div>
+                                                            <t
+                                                                t-if="day_data['pm'].get('has_extended_hours', False)">
+                                                                <div
+                                                                    class="extended-indicator-wrapper">
+                                                                    <span class="extended-indicator">
+                                                                        🕐</span>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                                <!-- MLE On Site - EMPLOYÉS -->
+                                <t t-if="row['type'] == 'atelier_employee'">
+                                    <tr class="assignment-row">
+                                        <!-- En-tête MLE On Site (seulement sur la première ligne) -->
+                                        <t t-if="row.get('show_atelier_header', False)">
+                                            <td t-att-rowspan="row['atelier_rowspan']"
+                                                class="site-cell">
+                                                <div class="site-name">
+                                                    <span class="site-fullname">On Site MLE</span>
+                                                </div>
+                                            </td>
+                                        </t>
+
+                                        <!-- Colonnes journée complète pour chaque jour -->
+                                        <t t-foreach="row['days_assignments']" t-as="day_data">
+                                            <td colspan="2" t-attf-class="assignment-cell full-day-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                <t t-if="day_data['full_day']">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-color="day_data['full_day']['color']"
+                                                            t-att-data-employee-id="day_data['full_day']['employee_id']"
+                                                            t-att-data-assignment-id="day_data['full_day']['assignment_id']">
+                                                            <t t-esc="day_data['full_day']['code']" />
+                                                        </div>
+                                                        <t
+                                                            t-if="day_data['full_day'].get('has_extended_hours', False)">
+                                                            <div class="extended-indicator-wrapper">
+                                                                <span class="extended-indicator">🕐</span>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                                <!-- MLE FONCTIONNELLE -->
+                                <t t-if="row['type'] == 'permanence_functional'">
+                                    <tr class="assignment-row">
+                                        <td class="site-cell">
+                                            <div class="site-name">
+                                                <span class="site-fullname">
+                                                    <t t-esc="row['permanence']['name']" />
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <t t-foreach="row['days_assignments']" t-as="day_data">
+                                            <t
+                                                t-if="day_data['am'] and day_data['am'].get('period') == 'full'">
+                                                <td t-attf-class="assignment-cell full-day-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}"
+                                                    colspan="2">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-color="day_data['am']['color']"
+                                                            t-att-data-employee-id="day_data['am']['employee_id']"
+                                                            t-att-data-assignment-id="day_data['am']['assignment_id']">
+                                                            <t t-esc="day_data['am']['code']" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td t-attf-class="assignment-cell am-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                    <t t-if="day_data['am']">
+                                                        <div class="assignment-wrapper">
+                                                            <div class="assignment-code"
+                                                                t-att-data-color="day_data['am']['color']"
+                                                                t-att-data-employee-id="day_data['am']['employee_id']"
+                                                                t-att-data-assignment-id="day_data['am']['assignment_id']">
+                                                                <t t-esc="day_data['am']['code']" />
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                                <td t-attf-class="assignment-cell pm-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                    <t t-if="day_data['pm']">
+                                                        <div class="assignment-wrapper">
+                                                            <div class="assignment-code"
+                                                                t-att-data-color="day_data['pm']['color']"
+                                                                t-att-data-employee-id="day_data['pm']['employee_id']"
+                                                                t-att-data-assignment-id="day_data['pm']['assignment_id']">
+                                                                <t t-esc="day_data['pm']['code']" />
+                                                            </div>
+                                                            <t
+                                                                t-if="day_data['pm'].get('has_extended_hours', False)">
+                                                                <div
+                                                                    class="extended-indicator-wrapper">
+                                                                    <span class="extended-indicator">
+                                                                        🕐</span>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </t>
+                                
+                                <!-- MLE TECHNIQUE -->
+                                <t t-if="row['type'] == 'permanence_technical'">
+                                    <tr class="assignment-row">
+                                        <td class="site-cell">
+                                            <div class="site-name">
+                                                <span class="site-fullname">
+                                                    <t t-esc="row['permanence']['name']" />
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <t t-foreach="row['days_assignments']" t-as="day_data">
+                                            <!-- Cellule AM -->
+                                            <td t-attf-class="assignment-cell am-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                <t t-if="day_data['am']">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-color="day_data['am']['color']"
+                                                            t-att-data-employee-id="day_data['am']['employee_id']"
+                                                            t-att-data-assignment-id="day_data['am']['assignment_id']">
+                                                            <t t-esc="day_data['am']['code']" />
+                                                        </div>
+                                                        <t
+                                                            t-if="day_data['am'].get('has_extended_hours', False)">
+                                                            <div class="extended-indicator-wrapper">
+                                                                <span class="extended-indicator">🕐</span>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <!-- Cellule PM -->
+                                            <td t-attf-class="assignment-cell pm-cell #{day_data.get('is_holiday') and 'holiday-cell' or ''}">
+                                                <t t-if="day_data['pm']">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-color="day_data['pm']['color']"
+                                                            t-att-data-employee-id="day_data['pm']['employee_id']"
+                                                            t-att-data-assignment-id="day_data['pm']['assignment_id']">
+                                                            <t t-esc="day_data['pm']['code']" />
+                                                        </div>
+                                                        <t
+                                                            t-if="day_data['pm'].get('has_extended_hours', False)">
+                                                            <div class="extended-indicator-wrapper">
+                                                                <span class="extended-indicator">🕐</span>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                            </t>
+
+                            <!-- PERMANENCES SPÉCIALES INTÉGRÉES DANS LE MÊME TABLEAU -->
+                            <t t-set="special_assignments"
+                                t-value="planning.assignment_ids.filtered(lambda a: a.special_name)" />
+                            <t t-if="special_assignments and len(special_assignments) > 0">
+                                <!-- Grouper les permanences spéciales par nom -->
+                                <t t-set="perm_names"
+                                    t-value="list(set([s.special_name for s in special_assignments if s.special_name]))" />
+
+                                <t t-foreach="sorted(perm_names)" t-as="perm_name">
+                                    <!-- Ligne marquée comme spéciale pour que le JS puisse la détecter -->
+                                    <tr class="assignment-row special-row">
+                                        <!-- Cellule titre permanence spéciale -->
+                                        <td class="site-cell">
+                                            <t t-set="perm_records"
+                                                t-value="special_assignments.filtered(lambda s: s.special_name == perm_name)" />
+                                            <t t-set="perm_color"
+                                                t-value="(perm_records and perm_records[0].special_color) or '#6f42c1'" />
+                                            <div class="site-name"
+                                                style="border-radius: 6px; padding: 6px 8px; display:flex; align-items:center; gap:8px">
+                                                <span class="site-fullname" t-esc="perm_name" />
+                                            </div>
+                                        </td>
+
+                                        <!-- Lundi AM/PM (gérer FULL, AM seul, PM seul) -->
+                                        <t t-set="monday_special"
+                                            t-value="special_assignments.filtered(lambda s: s.special_name == perm_name and s.day == 'monday')" />
+                                        <t t-set="monday_full"
+                                            t-value="monday_special.filtered(lambda s: s.period == 'full')" />
+                                        <t t-if="monday_full">
+                                            <td class="assignment-cell full-day-cell"
+                                                colspan="2">
+                                                <div class="assignment-wrapper">
+                                                    <div class="assignment-code"
+                                                        t-att-data-employee-id="monday_full[0].employee_id.id"
+                                                        t-att-data-assignment-id="monday_full[0].id"
+                                                        t-att-data-is-special="true"
+                                                        t-att-data-color="monday_full[0].employee_id.color">
+                                                        <t
+                                                            t-esc="monday_full[0].employee_id.employee_code or monday_full[0].employee_id.name" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="assignment-cell am-cell">
+                                                <t t-set="monday_am"
+                                                    t-value="monday_special.filtered(lambda s: s.period == 'am')" />
+                                                <t t-if="monday_am">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="monday_am[0].employee_id.id"
+                                                            t-att-data-assignment-id="monday_am[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="monday_am[0].employee_id.color">
+                                                            <t
+                                                                t-esc="monday_am[0].employee_id.employee_code or monday_am[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td class="assignment-cell pm-cell">
+                                                <t t-set="monday_pm"
+                                                    t-value="monday_special.filtered(lambda s: s.period == 'pm')" />
+                                                <t t-if="monday_pm">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="monday_pm[0].employee_id.id"
+                                                            t-att-data-assignment-id="monday_pm[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="monday_pm[0].employee_id.color">
+                                                            <t
+                                                                t-esc="monday_pm[0].employee_id.employee_code or monday_pm[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+
+                                        <!-- Mardi AM/PM (gérer FULL, AM seul, PM seul) -->
+                                        <t t-set="tuesday_special"
+                                            t-value="special_assignments.filtered(lambda s: s.special_name == perm_name and s.day == 'tuesday')" />
+                                        <t t-set="tuesday_full"
+                                            t-value="tuesday_special.filtered(lambda s: s.period == 'full')" />
+                                        <t t-if="tuesday_full">
+                                            <td class="assignment-cell full-day-cell"
+                                                colspan="2">
+                                                <div class="assignment-wrapper">
+                                                    <div class="assignment-code"
+                                                        t-att-data-employee-id="tuesday_full[0].employee_id.id"
+                                                        t-att-data-assignment-id="tuesday_full[0].id"
+                                                        t-att-data-is-special="true"
+                                                        t-att-data-color="tuesday_full[0].employee_id.color">
+                                                        <t
+                                                            t-esc="tuesday_full[0].employee_id.employee_code or tuesday_full[0].employee_id.name" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="assignment-cell am-cell">
+                                                <t t-set="tuesday_am"
+                                                    t-value="tuesday_special.filtered(lambda s: s.period == 'am')" />
+                                                <t t-if="tuesday_am">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="tuesday_am[0].employee_id.id"
+                                                            t-att-data-assignment-id="tuesday_am[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="tuesday_am[0].employee_id.color">
+                                                            <t
+                                                                t-esc="tuesday_am[0].employee_id.employee_code or tuesday_am[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td class="assignment-cell pm-cell">
+                                                <t t-set="tuesday_pm"
+                                                    t-value="tuesday_special.filtered(lambda s: s.period == 'pm')" />
+                                                <t t-if="tuesday_pm">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="tuesday_pm[0].employee_id.id"
+                                                            t-att-data-assignment-id="tuesday_pm[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="tuesday_pm[0].employee_id.color">
+                                                            <t
+                                                                t-esc="tuesday_pm[0].employee_id.employee_code or tuesday_pm[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+
+                                        <!-- Mercredi AM/PM (gérer FULL, AM seul, PM seul) -->
+                                        <t t-set="wednesday_special"
+                                            t-value="special_assignments.filtered(lambda s: s.special_name == perm_name and s.day == 'wednesday')" />
+                                        <t t-set="wednesday_full"
+                                            t-value="wednesday_special.filtered(lambda s: s.period == 'full')" />
+                                        <t t-if="wednesday_full">
+                                            <td class="assignment-cell full-day-cell"
+                                                colspan="2">
+                                                <div class="assignment-wrapper">
+                                                    <div class="assignment-code"
+                                                        t-att-data-employee-id="wednesday_full[0].employee_id.id"
+                                                        t-att-data-assignment-id="wednesday_full[0].id"
+                                                        t-att-data-is-special="true"
+                                                        t-att-data-color="wednesday_full[0].employee_id.color">
+                                                        <t
+                                                            t-esc="wednesday_full[0].employee_id.employee_code or wednesday_full[0].employee_id.name" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="assignment-cell am-cell">
+                                                <t t-set="wednesday_am"
+                                                    t-value="wednesday_special.filtered(lambda s: s.period == 'am')" />
+                                                <t t-if="wednesday_am">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="wednesday_am[0].employee_id.id"
+                                                            t-att-data-assignment-id="wednesday_am[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="wednesday_am[0].employee_id.color">
+                                                            <t
+                                                                t-esc="wednesday_am[0].employee_id.employee_code or wednesday_am[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td class="assignment-cell pm-cell">
+                                                <t t-set="wednesday_pm"
+                                                    t-value="wednesday_special.filtered(lambda s: s.period == 'pm')" />
+                                                <t t-if="wednesday_pm">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="wednesday_pm[0].employee_id.id"
+                                                            t-att-data-assignment-id="wednesday_pm[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="wednesday_pm[0].employee_id.color">
+                                                            <t
+                                                                t-esc="wednesday_pm[0].employee_id.employee_code or wednesday_pm[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+
+                                        <!-- Jeudi AM/PM (gérer FULL, AM seul, PM seul) -->
+                                        <t t-set="thursday_special"
+                                            t-value="special_assignments.filtered(lambda s: s.special_name == perm_name and s.day == 'thursday')" />
+                                        <t t-set="thursday_full"
+                                            t-value="thursday_special.filtered(lambda s: s.period == 'full')" />
+                                        <t t-if="thursday_full">
+                                            <td class="assignment-cell full-day-cell"
+                                                colspan="2">
+                                                <div class="assignment-wrapper">
+                                                    <div class="assignment-code"
+                                                        t-att-data-employee-id="thursday_full[0].employee_id.id"
+                                                        t-att-data-assignment-id="thursday_full[0].id"
+                                                        t-att-data-is-special="true"
+                                                        t-att-data-color="thursday_full[0].employee_id.color">
+                                                        <t
+                                                            t-esc="thursday_full[0].employee_id.employee_code or thursday_full[0].employee_id.name" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="assignment-cell am-cell">
+                                                <t t-set="thursday_am"
+                                                    t-value="thursday_special.filtered(lambda s: s.period == 'am')" />
+                                                <t t-if="thursday_am">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="thursday_am[0].employee_id.id"
+                                                            t-att-data-assignment-id="thursday_am[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="thursday_am[0].employee_id.color">
+                                                            <t
+                                                                t-esc="thursday_am[0].employee_id.employee_code or thursday_am[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td class="assignment-cell pm-cell">
+                                                <t t-set="thursday_pm"
+                                                    t-value="thursday_special.filtered(lambda s: s.period == 'pm')" />
+                                                <t t-if="thursday_pm">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="thursday_pm[0].employee_id.id"
+                                                            t-att-data-assignment-id="thursday_pm[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="thursday_pm[0].employee_id.color">
+                                                            <t
+                                                                t-esc="thursday_pm[0].employee_id.employee_code or thursday_pm[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+
+                                        <!-- Vendredi AM/PM (gérer FULL, AM seul, PM seul) -->
+                                        <t t-set="friday_special"
+                                            t-value="special_assignments.filtered(lambda s: s.special_name == perm_name and s.day == 'friday')" />
+                                        <t t-set="friday_full"
+                                            t-value="friday_special.filtered(lambda s: s.period == 'full')" />
+                                        <t t-if="friday_full">
+                                            <td class="assignment-cell full-day-cell"
+                                                colspan="2">
+                                                <div class="assignment-wrapper">
+                                                    <div class="assignment-code"
+                                                        t-att-data-employee-id="friday_full[0].employee_id.id"
+                                                        t-att-data-assignment-id="friday_full[0].id"
+                                                        t-att-data-is-special="true"
+                                                        t-att-data-color="friday_full[0].employee_id.color">
+                                                        <t
+                                                            t-esc="friday_full[0].employee_id.employee_code or friday_full[0].employee_id.name" />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="assignment-cell am-cell">
+                                                <t t-set="friday_am"
+                                                    t-value="friday_special.filtered(lambda s: s.period == 'am')" />
+                                                <t t-if="friday_am">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="friday_am[0].employee_id.id"
+                                                            t-att-data-assignment-id="friday_am[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="friday_am[0].employee_id.color">
+                                                            <t
+                                                                t-esc="friday_am[0].employee_id.employee_code or friday_am[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td class="assignment-cell pm-cell">
+                                                <t t-set="friday_pm"
+                                                    t-value="friday_special.filtered(lambda s: s.period == 'pm')" />
+                                                <t t-if="friday_pm">
+                                                    <div class="assignment-wrapper">
+                                                        <div class="assignment-code"
+                                                            t-att-data-employee-id="friday_pm[0].employee_id.id"
+                                                            t-att-data-assignment-id="friday_pm[0].id"
+                                                            t-att-data-is-special="true"
+                                                            t-att-data-color="friday_pm[0].employee_id.color">
+                                                            <t
+                                                                t-esc="friday_pm[0].employee_id.employee_code or friday_pm[0].employee_id.name" />
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

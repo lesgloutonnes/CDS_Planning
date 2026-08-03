@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire pour le planning hebdomadaire -->
+    <record id="view_chc_cds_planning_planning_weekly_form" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_weekly.form</field>
+        <field name="model">chc_cds_planning.planning_weekly</field>
+        <field name="arch" type="xml">
+            <form string="Planning hebdomadaire">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirmer"
+                        class="btn-primary" invisible="state != 'draft'"
+                        groups="chc_cds_planning.group_planning_admin"
+                        confirm="Voulez-vous confirmer ce planning ? Cette action vérifiera toutes les contraintes obligatoires." />
+
+                    <button name="action_reset_to_draft" type="object"
+                        string="Remettre en brouillon"
+                        class="btn-secondary"
+                        icon="fa-file-o"
+                        groups="chc_cds_planning.group_planning_admin"
+                        invisible="state not in ('confirmed', 'published')" />
+
+                    <button name="action_publish_with_check" type="object"
+                        string="Publier"
+                        class="btn-primary"
+                        icon="fa-globe"
+                        groups="chc_cds_planning.group_planning_admin"
+                        invisible="state != 'confirmed'"
+                        confirm="Publier ce planning ? Les invitations calendrier seront envoyées aux employés concernés."
+                        help="Passe le planning à l'état Publié et envoie les invitations calendrier." />
+
+                    <button name="action_export_pdf" type="object"
+                        string="Exporter en .PDF"
+                        class="btn-warning"
+                        icon="fa-file-pdf-o"
+                        invisible="state != 'confirmed'" />
+
+                    <button name="action_view_visual_planning" type="object"
+                        string="Vue Visuelle"
+                        class="btn-info" icon="fa-eye"
+                        help="Affiche le planning sous forme visuelle." />
+
+                    <button name="action_load_default_planning" type="object"
+                        string="Charger planning type"
+                        class="btn-warning" invisible="state != 'draft'" icon="fa-magic"
+                        groups="chc_cds_planning.group_planning_admin"
+                        confirm="Cela va remplacer toutes les affectations actuelles par le planning type. Continuer ?"
+                        help="Applique un modèle prédéfini." />
+
+                    <button name="action_copy_from_previous" type="object"
+                        string="Copier planning précédent"
+                        class="btn-secondary" invisible="state != 'draft'" icon="fa-copy"
+                        groups="chc_cds_planning.group_planning_admin"
+                        confirm="Cela va remplacer toutes les affectations actuelles par celles du planning précédent. Continuer ?"
+                        help="Reprend les affectations de la semaine pécédente." />
+
+                    <button name="action_choose_template" type="object"
+                        string="Appliquer un modèle"
+                        groups="chc_cds_planning.group_planning_admin"
+                        class="btn-info" invisible="state != 'draft'" icon="fa-list"
+                        help="Application d'un modèle sauvegardé." />
+
+                    <button name="action_save_as_template" type="object"
+                        string="Sauver comme modèle"
+                        groups="chc_cds_planning.group_planning_admin"
+                        class="btn-success" icon="fa-save"
+                        help="Sauvegarder ce planning comme modèle réutilisable" />
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,confirmed,published"
+                    />
+
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="start_date" required="1" readonly="is_readonly" />
+                            <field name="end_date" readonly="1" />
+                            <field name="is_readonly" invisible="1" />
+                        </group>
+                        <group>
+                            <!-- Champ utilisé uniquement lors de la création pour charger
+                            automatiquement le planning type.
+                            Après la création, utiliser le bouton "Charger planning type" pour recharger manuellement. -->
+                            <field name="load_default_planning"
+                                help="Si coché, le planning sera automatiquement pré-rempli avec le modèle type lors de la création"
+                                invisible="is_readonly or id" />
+                        </group>
+                    </group>
+
+
+                    <field name="note" placeholder="Notes sur ce planning..." />
+
+                    <notebook>
+                        <page string="Lundi" name="monday">
+                            <field name="assignment_ids_monday" context="{'default_day': 'monday'}"
+                                readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1" />
+                                    <field name="site_id" required="1" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" required="1" />
+                                    <field name="day" column_invisible="1" />
+                                    <field name="period" required="1" />
+                                    <field name="notes" />
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Mardi" name="tuesday">
+                            <field name="assignment_ids_tuesday"
+                                context="{'default_day': 'tuesday'}" readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1" />
+                                    <field name="site_id" required="1" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" required="1" />
+                                    <field name="day" column_invisible="1" />
+                                    <field name="period" required="1" />
+                                    <field name="notes" />
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Mercredi" name="wednesday">
+                            <field name="assignment_ids_wednesday"
+                                context="{'default_day': 'wednesday'}" readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1" />
+                                    <field name="site_id" required="1" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" required="1" />
+                                    <field name="day" column_invisible="1" />
+                                    <field name="period" required="1" />
+                                    <field name="notes" />
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Jeudi" name="thursday">
+                            <field name="assignment_ids_thursday"
+                                context="{'default_day': 'thursday'}" readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1" />
+                                    <field name="site_id" required="1" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" required="1" />
+                                    <field name="day" column_invisible="1" />
+                                    <field name="period" required="1" />
+                                    <field name="notes" />
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Vendredi" name="friday">
+                            <field name="assignment_ids_friday" context="{'default_day': 'friday'}"
+                                readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="employee_id" required="1" />
+                                    <field name="site_id" required="1" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" required="1" />
+                                    <field name="day" column_invisible="1" />
+                                    <!-- column_invisible="1" : cache l'en-tete et le contenu -->
+                                    <!-- invisible="1" : cache uniquement les valeurs -->
+                                    <field name="period" required="1" />
+                                    <field name="notes" />
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Permanences Spéciales" name="special_assignments">
+                            <field name="special_assignment_ids" readonly="is_readonly">
+                                <tree editable="bottom">
+                                    <field name="special_name" required="1"
+                                        placeholder="Ex: Accréditation ISO" />
+                                    <field name="day" required="1" />
+                                    <field name="employee_id" required="1" />
+                                    <field name="period" required="1" />
+                                    <field name="special_color" widget="color" />
+                                    <field name="site_id" column_invisible="1" />
+                                    <field name="permanence_type_id" column_invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste pour le planning hebdomadaire -->
+    <record id="view_chc_cds_planning_planning_weekly_tree" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_weekly.tree</field>
+        <field name="model">chc_cds_planning.planning_weekly</field>
+        <field name="arch" type="xml">
+            <tree string="Plannings hebdomadaires">
+                <field name="name" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="state" widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'confirmed'"
+                    decoration-warning="state == 'published'" />
+                <!-- Ajout d'un champ calculé pour le nombre d'affectations -->
+                <field name="assignment_ids" invisible="1" column_invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue calendrier (optionnelle) -->
+    <record id="view_chc_cds_planning_planning_weekly_calendar" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_weekly.calendar</field>
+        <field name="model">chc_cds_planning.planning_weekly</field>
+        <field name="arch" type="xml">
+            <calendar string="Plannings" date_start="start_date" date_stop="end_date"
+                color="state" mode="month">
+                <field name="name" />
+                <field name="state" />
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action pour les plannings hebdomadaires -->
+    <record id="action_chc_cds_planning_planning_weekly" model="ir.actions.act_window">
+        <field name="name">Plannings hebdomadaires</field>
+        <field name="res_model">chc_cds_planning.planning_weekly</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <!-- Regroupement par défaut pour éviter une liste "à plat" sur l'année -->
+        <field name="context">{'group_by': ['start_date:month']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau planning hebdomadaire
+            </p>
+            <p> Gérez vos plannings semaine par semaine.<br /> Vous pouvez créer un planning vide ou
+                utiliser le modèle par défaut. </p>
+        </field>
+    </record>
+
+    <!-- Action client pour afficher la vue visuelle dans le webclient (avec navbar Odoo) -->
+    <record id="action_chc_cds_planning_visual_planning" model="ir.actions.client">
+        <field name="name">Planning visuel</field>
+        <field name="tag">chc_cds_planning.visual_planning</field>
+    </record>
+
+    <record id="server_action_confirm_planning_weekly" model="ir.actions.server">
+        <field name="name">Confirmer les plannings</field>
+        <field name="model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_confirm_from_menu()
+        </field>
+    </record>
+
+    <record id="server_action_reset_to_draft_planning_weekly" model="ir.actions.server">
+        <field name="name">Remettre en brouillon</field>
+        <field name="model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_reset_to_draft()
+        </field>
+    </record>
+
+    <record id="server_action_publish_planning_weekly" model="ir.actions.server">
+        <field name="name">Exporter en .PDF</field>
+        <field name="model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('chc_cds_planning.group_planning_user')), (4, ref('chc_cds_planning.group_planning_admin'))]"/>
+        <field name="code">
+            action = records.action_export_pdf_from_menu()
+        </field>
+    </record>
+
+    <record id="server_action_publish_with_check_planning_weekly" model="ir.actions.server">
+        <field name="name">Publier les plannings</field>
+        <field name="model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_model_id" ref="model_chc_cds_planning_planning_weekly" />
+        <field name="binding_type">action</field>
+        <field name="groups_id" eval="[(4, ref('chc_cds_planning.group_planning_admin'))]" />
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_publish_with_check()
+        </field>
+    </record>
+
+</odoo>
