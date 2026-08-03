@@ -72,4 +72,11 @@
         sequence="50"
         groups="chc_cds_planning.group_planning_admin" />
 
+    <menuitem id="menu_chc_cds_planning_stats"
+        name="Stats"
+        parent="menu_chc_cds_planning_config"
+        action="action_refresh_presence_stats"
+        sequence="40"
+        groups="chc_cds_planning.group_planning_admin" />
+
 </odoo>
