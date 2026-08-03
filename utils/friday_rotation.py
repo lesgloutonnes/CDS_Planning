@@ -28,6 +28,18 @@ def get_friday_date(week_start):
     return week_start + timedelta(days=4)
 
 
+def get_planning_week_ids_for_year(env, year):
+    """Retourne les IDs des plannings hebdomadaires d'une année donnée."""
+    weeks = env["chc_cds_planning.planning_weekly"].search(
+        [
+            ("start_date", ">=", f"{year}-01-01"),
+            ("start_date", "<=", f"{year}-12-31"),
+        ],
+        order="start_date asc",
+    )
+    return weeks.ids
+
+
 def get_counter_field(perm_type_code):
   """Retourne le nom du champ compteur pour un type de permanence."""
   return "counter_fct" if perm_type_code == "FCT" else "counter_tch"

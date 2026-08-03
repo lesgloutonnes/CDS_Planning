@@ -6,6 +6,7 @@ from ..utils.friday_rotation import (
     EXCLUDED_EMPLOYEE_CODES,
     get_counter_field,
     get_last_date_field,
+    get_planning_week_ids_for_year,
 )
 
 
@@ -127,15 +128,19 @@ class FridayRotationCounter(models.Model):
         if not mle_site:
             return
 
+        week_ids = get_planning_week_ids_for_year(self.env, year)
+        if not week_ids:
+            return
+
         assignments = self.env["chc_cds_planning.planning_assignment"].search(
             [
                 ("day", "=", "friday"),
                 ("period", "=", "pm"),
                 ("site_id", "=", mle_site.id),
                 ("permanence_type_id.code", "in", ["FCT", "TCH"]),
-                ("planning_week_id.start_date", ">=", f"{year}-01-01"),
-                ("planning_week_id.start_date", "<=", f"{year}-12-31"),
+                ("planning_week_id", "in", week_ids),
             ],
+            order="id",
         )
         assignments = assignments.sorted(
             key=lambda a: a.planning_week_id.start_date or date.min

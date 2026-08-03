@@ -10,6 +10,7 @@ ISOLATED_ON_SITE_CODES = frozenset({"HEU", "HRM", "WAR"})
 class PlanningAssignment(models.Model):
     _name = "chc_cds_planning.planning_assignment"
     _description = "Planning Assignment"
+    _order = "id"
 
     planning_week_id = fields.Many2one(
         "chc_cds_planning.planning_weekly",
