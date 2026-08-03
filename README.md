@@ -1,2 +1,14 @@
-# CDS_Planning
-CHC CDS PLANNING
+# Odoo - CHC - Planning CDS
+
+- ...
+
+## Acteurs
+
+### Référants
+
+- ....
+
+### Contributeurs
+
+- ....
+

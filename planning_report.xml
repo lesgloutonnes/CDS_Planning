@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- Vues pour les types de permanence -->
+    <record id="view_chc_cds_planning_permanence_type_form" model="ir.ui.view">
+        <field name="name">chc_cds_planning.permanence_type.form</field>
+        <field name="model">chc_cds_planning.permanence_type</field>
+        <field name="arch" type="xml">
+            <form string="Type de permanence">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" />
+                            <field name="description" />
+                        </group>
+                        <group>
+                            <field name="color" widget="color_picker" />
+                        </group>
+                        <group>
+                            <field name="site_ids" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_chc_cds_planning_permanence_type_tree" model="ir.ui.view">
+        <field name="name">chc_cds_planning.permanence_type.tree</field>
+        <field name="model">chc_cds_planning.permanence_type</field>
+        <field name="arch" type="xml">
+            <tree string="Types de permanence">
+                <field name="code" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_chc_cds_planning_permanence_type" model="ir.actions.act_window">
+        <field name="name">Types de permanence</field>
+        <field name="res_model">chc_cds_planning.permanence_type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_chc_cds_planning_planning_template_form" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_template.form</field>
+        <field name="model">chc_cds_planning.planning_template</field>
+        <field name="arch" type="xml">
+            <form string="Modèle de planning">
+                <header>
+                    <button name="action_apply_to_planning" type="object"
+                        string="Appliquer à un planning"
+                        class="btn-primary" icon="fa-magic" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du modèle..." />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description" />
+                            <field name="active" />
+                        </group>
+                        <group>
+                            <field name="is_default" widget="boolean_toggle" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Lignes du modèle" name="template_lines">
+                            <field name="template_line_ids">
+                                <tree editable="bottom">
+                                    <field name="day" />
+                                    <field name="period" />
+                                    <field name="employee_id" />
+                                    <field name="site_id" />
+                                    <field name="permanence_type_id"
+                                        domain="[('site_ids', 'in', site_id)]" />
+                                    <field name="notes" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Statistiques" name="stats">
+                            <div class="alert alert-success" role="alert">
+                                <h5><i class="fa fa-chart-bar" /> Statistiques du modèle</h5>
+                                <p>Informations sur la répartition des affectations dans ce modèle.</p>
+                            </div>
+                            <group>
+                                <group string="Résumé">
+                                    <label for="template_line_ids"
+                                        string="Nombre total d'affectations" />
+                                    <div>
+                                        <field name="template_line_ids" widget="statinfo"
+                                            readonly="1" />
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste pour les templates -->
+    <record id="view_chc_cds_planning_planning_template_tree" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_template.tree</field>
+        <field name="model">chc_cds_planning.planning_template</field>
+        <field name="arch" type="xml">
+            <tree string="Modèles de planning">
+                <field name="name" />
+                <field name="description" />
+                <field name="is_default" widget="boolean_toggle" />
+                <field name="active" widget="boolean_toggle" />
+                <button name="action_apply_to_planning" type="object" string="Appliquer"
+                    class="btn-sm btn-primary" icon="fa-magic"
+                    title="Appliquer ce modèle à un planning" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue kanban pour les templates (optionnelle) -->
+    <record id="view_chc_cds_planning_planning_template_kanban" model="ir.ui.view">
+        <field name="name">chc_cds_planning.planning_template.kanban</field>
+        <field name="model">chc_cds_planning.planning_template</field>
+        <field name="arch" type="xml">
+            <kanban string="Modèles de planning">
+                <field name="name" />
+                <field name="description" />
+                <field name="is_default" />
+                <field name="active" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <strong>
+                                            <field name="name" />
+                                        </strong>
+                                        <t t-if="record.is_default.raw_value">
+                                            <span class="badge badge-success">Par défaut</span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <div class="o_kanban_card_manage_pane">
+                                    <field name="description" />
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_footer">
+                                <button name="action_apply_to_planning" type="object"
+                                    class="btn btn-sm btn-primary">
+                                    <i class="fa fa-magic" /> Appliquer </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action pour les templates -->
+    <record id="action_chc_cds_planning_planning_template" model="ir.actions.act_window">
+        <field name="name">Template de planning</field>
+        <field name="res_model">chc_cds_planning.planning_template</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+</odoo>
