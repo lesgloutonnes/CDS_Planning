@@ -2,6 +2,8 @@ from datetime import date
 
 from odoo import api, fields, models
 
+from ..utils.friday_rotation import get_planning_week_ids_for_year
+
 
 class PlanningPresenceStats(models.Model):
     _name = "chc_cds_planning.planning_presence_stats"
@@ -94,29 +96,31 @@ class PlanningPresenceStats(models.Model):
 
     @api.model
     def _count_friday_pm_assignments(self, employee, year, mle_site, perm_type_code):
-        assignments = self.env["chc_cds_planning.planning_assignment"].search(
+        week_ids = get_planning_week_ids_for_year(self.env, year)
+        if not week_ids:
+            return 0
+        return self.env["chc_cds_planning.planning_assignment"].search_count(
             [
                 ("employee_id", "=", employee.id),
                 ("day", "=", "friday"),
                 ("period", "=", "pm"),
                 ("site_id", "=", mle_site.id),
                 ("permanence_type_id.code", "=", perm_type_code),
-                ("planning_week_id.start_date", ">=", f"{year}-01-01"),
-                ("planning_week_id.start_date", "<=", f"{year}-12-31"),
+                ("planning_week_id", "in", week_ids),
             ]
         )
-        return len(assignments)
 
     @api.model
     def _count_total_presence(self, employee, year):
-        assignments = self.env["chc_cds_planning.planning_assignment"].search(
+        week_ids = get_planning_week_ids_for_year(self.env, year)
+        if not week_ids:
+            return 0
+        return self.env["chc_cds_planning.planning_assignment"].search_count(
             [
                 ("employee_id", "=", employee.id),
-                ("planning_week_id.start_date", ">=", f"{year}-01-01"),
-                ("planning_week_id.start_date", "<=", f"{year}-12-31"),
+                ("planning_week_id", "in", week_ids),
             ]
         )
-        return len(assignments)
 
     @api.model
     def action_refresh_stats(self, year=None):
