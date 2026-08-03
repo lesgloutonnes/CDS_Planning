@@ -1,0 +1,1038 @@
+<odoo noupdate="1">
+    <!-- employee ROMAC -->
+    <record id="employee_romac" model="hr.employee">
+        <field name="name">Romain Macors</field>
+        <field name="employee_code">ROMAC</field>
+        <field name="color">9</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_romac_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_romac_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_romac_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_romac_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_romac_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_romac_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_romac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <!-- employee DAANT -->
+    <record id="employee_daant" model="hr.employee">
+        <field name="name">David Antoine</field>
+        <field name="employee_code">DAANT</field>
+        <field name="color">28</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_daant_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_daant_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_daant_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_daant_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_daant_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_daant_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_daant" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <!-- employee GUMAR -->
+    <record id="employee_gumar" model="hr.employee">
+        <field name="name">Guillaume Marotte</field>
+        <field name="employee_code">GUMAR</field>
+        <field name="color">20</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_gumar_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_gumar_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_gumar_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_gumar_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_gumar_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_gumar_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <!-- employee ANSCH -->
+    <record id="employee_ansch" model="hr.employee">
+        <field name="name">Antoine Schmitz</field>
+        <field name="employee_code">ANSCH</field>
+        <field name="color">7</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_ansch_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_ansch_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_ansch_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_ansch_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_ansch_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_ansch_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+
+    <!-- employee PIMAC -->
+    <record id="employee_pimac" model="hr.employee">
+        <field name="name">Pierre Machiels</field>
+        <field name="employee_code">PIMAC</field>
+        <field name="color">25</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_pimac_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_pimac_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_pimac_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_pimac_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_pimac_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_pimac_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <!-- employee CHBUS -->
+    <record id="employee_chbus" model="hr.employee">
+        <field name="name">Charles Bussers</field>
+        <field name="employee_code">CHBUS</field>
+        <field name="color">6</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+
+    <record id="qualif_chbus_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_chbus_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_chbus_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_chbus_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_chbus_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_chbus_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">4</field>
+    </record>
+
+    <!-- employee MISTA -->
+    <record id="employee_mista" model="hr.employee">
+        <field name="name">Mike Staumont</field>
+        <field name="employee_code">MISTA</field>
+        <field name="color">3</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_mista_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_mista_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_mista_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_mista_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_mista_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_mista_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_mista" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <!-- employee KEHOA -->
+    <record id="employee_kehoa" model="hr.employee">
+        <field name="name">Kevin Hoang</field>
+        <field name="employee_code">KEHOA</field>
+        <field name="color">0</field>
+        <field name="skin_enabled">True</field>
+        <field name="skin_type">sakura</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+   
+    <record id="qualif_kehoa_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_kehoa_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_kehoa_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_kehoa_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_kehoa_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_kehoa_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+
+    <!-- employee JEDEL -->
+    <record id="employee_jedel" model="hr.employee">
+        <field name="name">Jeremy Deltour</field>
+        <field name="employee_code">JEDEL</field>
+        <field name="color">38</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_jedel_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_jedel_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_jedel_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_jedel_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_jedel_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_jedel_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">4</field>
+    </record>
+
+    <!-- employee DAMAL - QUITTÉ LE SERVICE -->
+    <!--
+    <record id="employee_damal" model="hr.employee">
+        <field name="name">Daniel Malavolti</field>
+        <field name="employee_code">DAMAL</field>
+        <field name="color">1</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <record id="qualif_damal_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_damal_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_damal_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_damal_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_damal_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_damal_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_damal" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+    -->
+
+    <!-- employee CEJAD -->
+    <record id="employee_cejad" model="hr.employee">
+        <field name="name">Cedric Jaduta</field>
+        <field name="employee_code">CEJAD</field>
+        <field name="color">31</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_cejad_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cejad_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cejad_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cejad_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cejad_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_cejad_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <!-- employee GRMOR -->
+    <record id="employee_grmor" model="hr.employee">
+        <field name="name">Gregory Morosow</field>
+        <field name="employee_code">GRMOR</field>
+        <field name="color">22</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_grmor_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_grmor_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_grmor_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_grmor_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_grmor_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_grmor_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <!-- employee JUAPE -->
+    <record id="employee_juape" model="hr.employee">
+        <field name="name">Junior Apetovi</field>
+        <field name="employee_code">JUAPE</field>
+        <field name="color">23</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_juape_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_juape_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_juape_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_juape_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_juape_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_juape_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_juape" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <!-- employee EMDEV -->
+    <record id="employee_emdev" model="hr.employee">
+        <field name="name">Emmanuel Devillers</field>
+        <field name="employee_code">EMDEV</field>
+        <field name="color">26</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_emdev_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_emdev_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_emdev_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_emdev_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_emdev_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_emdev_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+     <!-- employee PAVAN -->
+     <record id="employee_pavan" model="hr.employee">
+        <field name="name">Pascal Vanbergen</field>
+        <field name="employee_code">PAVAN</field>
+        <field name="color">16</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_pavan_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_pavan_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_pavan_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_pavan_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_pavan_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_pavan_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_pavan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <!-- employee SEGIV - QUITTÉ LE SERVICE -->
+    <!--
+    <record id="employee_segiv" model="hr.employee">
+        <field name="name">Sebastien Givard</field>
+        <field name="employee_code">SEGIV</field>
+        <field name="color">13</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <record id="qualif_segiv_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_segiv_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_segiv_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_segiv_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_segiv_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_segiv_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_segiv" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+    -->
+
+    <!-- employee ALBAS -->
+    <record id="employee_albas" model="hr.employee">
+        <field name="name">Alexandre Bastin</field>
+        <field name="employee_code">ALBAS</field>
+        <field name="color">37</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_albas_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <record id="qualif_albas_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_albas_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_albas_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_albas_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_albas_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_albas" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <!-- employee JOMAR -->
+    <record id="employee_jomar" model="hr.employee">
+        <field name="name">Jordan Marchese</field>
+        <field name="employee_code">JOMAR</field>
+        <field name="color">27</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_jomar_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">2</field>
+    </record>
+
+    <record id="qualif_jomar_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_jomar_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_jomar_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_jomar_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_jomar_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">1</field>
+    </record>
+
+    <!-- employee SEDEN -->
+    <record id="employee_seden" model="hr.employee">
+        <field name="name">Sebastien Dengis</field>
+        <field name="employee_code">SEDEN</field>
+        <field name="color">32</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_seden_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <record id="qualif_seden_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_seden_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_seden_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_seden_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_seden_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_seden" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <!-- employee CEVAN -->
+    <record id="employee_cevan" model="hr.employee">
+        <field name="name">Cédric Vandervenden</field>
+        <field name="employee_code">CEVAN</field>
+        <field name="color">5</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+    <!-- Qualifications liées -->
+    <record id="qualif_cevan_1" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cevan_2" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_war" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_cevan_3" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_heu" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_cevan_4" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="priority">4</field>
+    </record>
+
+    <record id="qualif_cevan_5" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">5</field>
+    </record>
+
+    <record id="qualif_cevan_6" model="chc_cds_planning.employee_qualifications">
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+        <field name="site_id" ref="site_mle" />
+        <field name="priority">3</field>
+    </record>
+
+    <!-- employee ADVER (fallback L1) -->
+    <record id="employee_adver" model="hr.employee">
+        <field name="name">Adrien Verschueren</field>
+        <field name="employee_code">ADVER</field>
+        <field name="color">11</field>
+        <field name="max_days_per_week">5</field>
+    </record>
+
+</odoo>

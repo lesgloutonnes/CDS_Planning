@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="planning_template_default" model="chc_cds_planning.planning_template">
+        <field name="name">Planning type CDS</field>
+        <field name="description">Modèle de planning basé sur le fichier Excel de référence</field>
+        <field name="is_default">True</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- =============================== LUNDI =============================== -->
+
+    <!-- Sites externes - Lundi -->
+    <!-- Mista en perm heusy déplacé au mardi AM -->
+
+    <!-- MLE On Site - Lundi (journées complètes) -->
+    <record id="template_line_monday_atelier_ansch" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <record id="template_line_monday_atelier_emdev" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <!-- MLE Fonctionnelle & MLE Technique - Lundi -->
+    <record id="template_line_monday_fonct_am_gumar" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_monday_fonct_pm_kehoa" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_monday_tech_am_grmor" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_monday_tech_pm_daant" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">monday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_daant" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- =============================== MARDI =============================== -->
+
+    <!-- Sites externes - Mardi -->
+    <record id="template_line_tuesday_am_mista_heu" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_mista" />
+        <field name="site_id" ref="site_heu" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- MLE On Site - Mardi -->
+    <record id="template_line_tuesday_atelier_ansch" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <record id="template_line_tuesday_atelier_jomar" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <!-- MLE Fonctionnelle & MLE Technique - Mardi -->
+    <record id="template_line_tuesday_fonct_am_romac" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_romac" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_tuesday_fonct_pm_jedel" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_tuesday_tech_am_cevan" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_cevan" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_tuesday_tech_pm_seden" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">tuesday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_seden" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- =============================== MERCREDI =============================== -->
+
+    <!-- Sites externes - Mercredi -->
+    <record id="template_line_wednesday_am_grmor_hrm" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- MLE On Site - Mercredi -->
+    <record id="template_line_wednesday_atelier_ansch" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <record id="template_line_wednesday_atelier_emdev" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <!-- MLE Fonctionnelle & MLE Technique - Mercredi -->
+    <record id="template_line_wednesday_fonct_am_gumar" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_gumar" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_wednesday_fonct_pm_cejad" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_cejad" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_wednesday_tech_am_juape" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_juape" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_wednesday_tech_pm_jomar" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">wednesday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- =============================== JEUDI =============================== -->
+
+    <!-- Sites externes - Jeudi -->
+    <record id="template_line_thursday_am_mista_heu" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_mista" />
+        <field name="site_id" ref="site_heu" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- MLE On Site - Jeudi -->
+    <record id="template_line_thursday_atelier_juape" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_juape" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <record id="template_line_thursday_atelier_ansch" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <!-- MLE Fonctionnelle & MLE Technique - Jeudi -->
+    <record id="template_line_thursday_fonct_am_chbus" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_thursday_fonct_pm_kehoa" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_kehoa" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_thursday_tech_am_grmor" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_thursday_tech_pm_albas" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">thursday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_albas" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- =============================== VENDREDI =============================== -->
+
+    <!-- Sites externes - Vendredi -->
+    <record id="template_line_friday_am_grmor_hrm" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_grmor" />
+        <field name="site_id" ref="site_hrm" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_friday_pm_juape_war" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_juape" />
+        <field name="site_id" ref="site_war" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <!-- MLE On Site - Vendredi -->
+    <record id="template_line_friday_atelier_albas" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_albas" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <record id="template_line_friday_atelier_jomar" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">full</field>
+        <field name="employee_id" ref="employee_jomar" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_atelier" />
+    </record>
+
+    <!-- MLE Fonctionnelle & MLE Technique - Vendredi -->
+    <record id="template_line_friday_fonct_am_pimac" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_pimac" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_friday_fonct_pm_jedel" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_jedel" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_fonct" />
+    </record>
+
+    <record id="template_line_friday_tech_am_emdev" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">am</field>
+        <field name="employee_id" ref="employee_emdev" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+    <record id="template_line_friday_tech_pm_ansch" model="chc_cds_planning.planning_template_line">
+        <field name="template_id" ref="planning_template_default" />
+        <field name="day">friday</field>
+        <field name="period">pm</field>
+        <field name="employee_id" ref="employee_ansch" />
+        <field name="site_id" ref="site_mle" />
+        <field name="permanence_type_id" ref="perm_type_tech" />
+    </record>
+
+</odoo>

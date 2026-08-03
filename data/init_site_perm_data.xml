@@ -1,0 +1,57 @@
+<odoo noupdate="1">
+  <!-- Sites -->
+  <record id="site_hrm" model="chc_cds_planning.site">
+    <field name="code">HRM</field>
+    <field name="name">On Site HRM</field>
+    <field name="active">1</field>
+  </record>
+
+  <record id="site_mle" model="chc_cds_planning.site">
+    <field name="code">MLE</field>
+    <field name="name">Mont Légia</field>
+    <field name="active">1</field>
+  </record>
+
+  <record id="site_heu" model="chc_cds_planning.site">
+    <field name="code">HEU</field>
+    <field name="name">On Site HEU</field>
+    <field name="active">1</field>
+  </record>
+
+  <record id="site_war" model="chc_cds_planning.site">
+    <field name="code">WAR</field>
+    <field name="name">On Site WAR</field>
+    <field name="active">1</field>
+  </record>
+
+  <record id="site_autre" model="chc_cds_planning.site">
+    <field name="code">OTH</field>
+    <field name="name">Autre</field>
+    <field name="active">1</field>
+  </record>
+
+  <!-- Types de permanence -->
+  <record id="perm_type_atelier" model="chc_cds_planning.permanence_type">
+    <field name="code">ATL</field>
+    <field name="name">On Site MLE</field>
+    <field name="site_ids" eval="[(6, 0, [ref('site_mle')])]" />
+  </record>
+
+  <record id="perm_type_fonct" model="chc_cds_planning.permanence_type">
+    <field name="code">FCT</field>
+    <field name="name">Perm Fonctionnelle</field>
+    <field name="site_ids" eval="[(6, 0, [ref('site_mle')])]" />
+  </record>
+
+  <record id="perm_type_tech" model="chc_cds_planning.permanence_type">
+    <field name="code">TCH</field>
+    <field name="name">Perm Technique</field>
+    <field name="site_ids" eval="[(6, 0, [ref('site_hrm'), ref('site_heu'), ref('site_war'), ref('site_mle')])]" />
+  </record>
+
+  <record id="perm_type_autre" model="chc_cds_planning.permanence_type">
+    <field name="code">OTH</field>
+    <field name="name">Autre</field>
+    <field name="site_ids" eval="[(6, 0, [ref('site_autre')])]" />
+  </record>
+</odoo> 

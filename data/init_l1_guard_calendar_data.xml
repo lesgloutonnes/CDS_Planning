@@ -1,0 +1,308 @@
+<odoo noupdate="1">
+    <record id="l1_guard_20260103" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-01-03</field>
+        <field name="date_end">2026-01-09</field>
+        <field name="l1_code">BEJOB</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260109" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-01-09</field>
+        <field name="date_end">2026-01-16</field>
+        <field name="l1_code">STTOU</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260116" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-01-16</field>
+        <field name="date_end">2026-01-23</field>
+        <field name="l1_code">SEDEN</field>
+        <field name="employee_id" ref="employee_seden" />
+    </record>
+    <record id="l1_guard_20260123" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-01-23</field>
+        <field name="date_end">2026-01-30</field>
+        <field name="l1_code">ALCHA</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260130" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-01-30</field>
+        <field name="date_end">2026-02-06</field>
+        <field name="l1_code">JUAPE</field>
+        <field name="employee_id" ref="employee_juape" />
+    </record>
+    <record id="l1_guard_20260206" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-02-06</field>
+        <field name="date_end">2026-02-13</field>
+        <field name="l1_code">JUAPE</field>
+        <field name="employee_id" ref="employee_juape" />
+    </record>
+    <record id="l1_guard_20260213" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-02-13</field>
+        <field name="date_end">2026-02-20</field>
+        <field name="l1_code">CHBUS</field>
+        <field name="employee_id" ref="employee_chbus" />
+    </record>
+    <record id="l1_guard_20260220" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-02-20</field>
+        <field name="date_end">2026-02-27</field>
+        <field name="l1_code">KEHOA</field>
+        <field name="employee_id" ref="employee_kehoa" />
+    </record>
+    <record id="l1_guard_20260306" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-03-06</field>
+        <field name="date_end">2026-03-13</field>
+        <field name="l1_code">CEVAN</field>
+        <field name="employee_id" ref="employee_cevan" />
+    </record>
+    <record id="l1_guard_20260313" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-03-13</field>
+        <field name="date_end">2026-03-20</field>
+        <field name="l1_code">JEDEL</field>
+        <field name="employee_id" ref="employee_jedel" />
+    </record>
+    <record id="l1_guard_20260320" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-03-20</field>
+        <field name="date_end">2026-03-27</field>
+        <field name="l1_code">ALBAS</field>
+        <field name="employee_id" ref="employee_albas" />
+    </record>
+    <record id="l1_guard_20260327" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-03-27</field>
+        <field name="date_end">2026-04-03</field>
+        <field name="l1_code">FEBDG</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260403" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-04-03</field>
+        <field name="date_end">2026-04-10</field>
+        <field name="l1_code">GUMAREC</field>
+        <field name="employee_id" ref="employee_gumar" />
+    </record>
+    <record id="l1_guard_20260410" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-04-10</field>
+        <field name="date_end">2026-04-17</field>
+        <field name="l1_code">CEJAD</field>
+        <field name="employee_id" ref="employee_cejad" />
+    </record>
+    <record id="l1_guard_20260417" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-04-17</field>
+        <field name="date_end">2026-04-24</field>
+        <field name="l1_code">SEGIV</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260424" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-04-24</field>
+        <field name="date_end">2026-05-01</field>
+        <field name="l1_code">PAVAN</field>
+        <field name="employee_id" ref="employee_pavan" />
+    </record>
+    <record id="l1_guard_20260501" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-05-01</field>
+        <field name="date_end">2026-05-08</field>
+        <field name="l1_code">STTOU</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260508" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-05-08</field>
+        <field name="date_end">2026-05-15</field>
+        <field name="l1_code">FJLOU</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260515" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-05-15</field>
+        <field name="date_end">2026-05-22</field>
+        <field name="l1_code">DAANT</field>
+        <field name="employee_id" ref="employee_daant" />
+    </record>
+    <record id="l1_guard_20260522" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-05-22</field>
+        <field name="date_end">2026-05-29</field>
+        <field name="l1_code">ROMAC</field>
+        <field name="employee_id" ref="employee_romac" />
+    </record>
+    <record id="l1_guard_20260529" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-05-29</field>
+        <field name="date_end">2026-06-05</field>
+        <field name="l1_code">ADVER</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260605" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-06-05</field>
+        <field name="date_end">2026-06-12</field>
+        <field name="l1_code">MISTA</field>
+        <field name="employee_id" ref="employee_mista" />
+    </record>
+    <record id="l1_guard_20260612" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-06-12</field>
+        <field name="date_end">2026-06-19</field>
+        <field name="l1_code">GRMOR</field>
+        <field name="employee_id" ref="employee_grmor" />
+    </record>
+    <record id="l1_guard_20260619" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-06-19</field>
+        <field name="date_end">2026-06-26</field>
+        <field name="l1_code">GUMAR</field>
+        <field name="employee_id" ref="employee_gumar" />
+    </record>
+    <record id="l1_guard_20260626" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-06-26</field>
+        <field name="date_end">2026-07-03</field>
+        <field name="l1_code">CHZUN</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260703" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-07-03</field>
+        <field name="date_end">2026-07-10</field>
+        <field name="l1_code">PIMAC</field>
+        <field name="employee_id" ref="employee_pimac" />
+    </record>
+    <record id="l1_guard_20260710" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-07-10</field>
+        <field name="date_end">2026-07-17</field>
+        <field name="l1_code">SEBER</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260717" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-07-17</field>
+        <field name="date_end">2026-07-24</field>
+        <field name="l1_code">JUAPE</field>
+        <field name="employee_id" ref="employee_juape" />
+    </record>
+    <record id="l1_guard_20260724" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-07-24</field>
+        <field name="date_end">2026-07-31</field>
+        <field name="l1_code">ALBAS</field>
+        <field name="employee_id" ref="employee_albas" />
+    </record>
+    <record id="l1_guard_20260731" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-07-31</field>
+        <field name="date_end">2026-08-07</field>
+        <field name="l1_code">ROMAC</field>
+        <field name="employee_id" ref="employee_romac" />
+    </record>
+    <record id="l1_guard_20260807" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-08-07</field>
+        <field name="date_end">2026-08-14</field>
+        <field name="l1_code">JEDEL</field>
+        <field name="employee_id" ref="employee_jedel" />
+    </record>
+    <record id="l1_guard_20260814" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-08-14</field>
+        <field name="date_end">2026-08-21</field>
+        <field name="l1_code">SEDEN</field>
+        <field name="employee_id" ref="employee_seden" />
+    </record>
+    <record id="l1_guard_20260821" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-08-21</field>
+        <field name="date_end">2026-08-28</field>
+        <field name="l1_code">CEVAN</field>
+        <field name="employee_id" ref="employee_cevan" />
+    </record>
+    <record id="l1_guard_20260828" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-08-28</field>
+        <field name="date_end">2026-09-04</field>
+        <field name="l1_code">CHBUS</field>
+        <field name="employee_id" ref="employee_chbus" />
+    </record>
+    <record id="l1_guard_20260904" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-09-04</field>
+        <field name="date_end">2026-09-11</field>
+        <field name="l1_code">FEDEL</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20260911" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-09-11</field>
+        <field name="date_end">2026-09-18</field>
+        <field name="l1_code">KEHOA</field>
+        <field name="employee_id" ref="employee_kehoa" />
+    </record>
+    <record id="l1_guard_20260918" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-09-18</field>
+        <field name="date_end">2026-09-25</field>
+        <field name="l1_code">CEVAN</field>
+        <field name="employee_id" ref="employee_cevan" />
+    </record>
+    <record id="l1_guard_20260925" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-09-25</field>
+        <field name="date_end">2026-10-02</field>
+        <field name="l1_code">BEVAN</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261002" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-10-02</field>
+        <field name="date_end">2026-10-09</field>
+        <field name="l1_code">JEDEG</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261009" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-10-09</field>
+        <field name="date_end">2026-10-16</field>
+        <field name="l1_code">CEBOS</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261016" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-10-16</field>
+        <field name="date_end">2026-10-23</field>
+        <field name="l1_code">GUMAR</field>
+        <field name="employee_id" ref="employee_gumar" />
+    </record>
+    <record id="l1_guard_20261023" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-10-23</field>
+        <field name="date_end">2026-10-30</field>
+        <field name="l1_code">ISSANY</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261030" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-10-30</field>
+        <field name="date_end">2026-11-06</field>
+        <field name="l1_code">SGGVY</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261106" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-11-06</field>
+        <field name="date_end">2026-11-13</field>
+        <field name="l1_code">PAVAN</field>
+        <field name="employee_id" ref="employee_pavan" />
+    </record>
+    <record id="l1_guard_20261120" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-11-20</field>
+        <field name="date_end">2026-11-27</field>
+        <field name="l1_code">FHOLU</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261127" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-11-27</field>
+        <field name="date_end">2026-12-04</field>
+        <field name="l1_code">BECEI</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261204" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-12-04</field>
+        <field name="date_end">2026-12-11</field>
+        <field name="l1_code">ADVER</field>
+        <field name="employee_id" ref="employee_adver" />
+    </record>
+    <record id="l1_guard_20261211" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-12-11</field>
+        <field name="date_end">2026-12-18</field>
+        <field name="l1_code">MISTA</field>
+        <field name="employee_id" ref="employee_mista" />
+    </record>
+    <record id="l1_guard_20261218" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-12-18</field>
+        <field name="date_end">2026-12-25</field>
+        <field name="l1_code">CEVAN</field>
+        <field name="employee_id" ref="employee_cevan" />
+    </record>
+    <record id="l1_guard_20261226" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2026-12-25</field>
+        <field name="date_end">2027-01-01</field>
+        <field name="l1_code">ALBAS</field>
+        <field name="employee_id" ref="employee_albas" />
+    </record>
+    <record id="l1_guard_20270102" model="chc_cds_planning.l1_guard_calendar">
+        <field name="date_start">2027-01-02</field>
+        <field name="date_end">2027-01-08</field>
+        <field name="l1_code">JOMAR</field>
+        <field name="employee_id" ref="employee_jomar" />
+    </record>
+</odoo>

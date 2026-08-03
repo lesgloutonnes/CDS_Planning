@@ -1,0 +1,20 @@
+<odoo noupdate="1">
+    <!-- CHBUS -->
+    <record id="unavailability_chbus_1" model="chc_cds_planning.employee_unavailability">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="day_of_week">0</field>
+        <field name="am">true</field>
+        <field name="pm">true</field>
+        <field name="reason">TT</field>
+    </record>
+
+    <record id="unavailability_chbus_2" model="chc_cds_planning.employee_unavailability">
+        <field name="employee_id" ref="employee_chbus" />
+        <field name="day_of_week">2</field>
+        <field name="am">true</field>
+        <field name="pm">true</field>
+        <field name="reason">Formation</field>
+    </record>
+
+    
+</odoo>

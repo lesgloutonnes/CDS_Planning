@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+        <record id="SOLAP" model="res.users">
+            <field name="name">Sonia La Porta</field>
+            <field name="login">sonia.laporta@chc.be</field>
+            <field name="active">1</field>
+            <!-- Affectation au groupe -->
+            <field name="groups_id"
+                eval="[(6, 0, [ref('base.group_user')])]" />
+        </record>
+
+        <record id="KABEN" model="res.users">
+            <field name="name">Kaoutar Benzina</field>
+            <field name="login">kaoutar.benzina@chc.be</field>
+            <field name="active">1</field>
+            <!-- Affectation au groupe -->
+            <field name="groups_id"
+                eval="[(6, 0, [ref('base.group_user')])]" />
+        </record>
+
+        <record id="JECOL" model="res.users">
+            <field name="name">Jean-marc Collard</field>
+            <field name="login">jean-marc.collard@chc.be</field>
+            <field name="active">1</field>
+            <!-- Affectation au groupe -->
+            <field name="groups_id"
+                eval="[(6, 0, [ref('base.group_user')])]" />
+        </record>
+
+        <record id="PLANVUE" model="res.users">
+            <field name="name">Planning Vue</field>
+            <field name="login">planning.vue@chc.be</field>
+            <field name="active">1</field>
+            <!-- Affectation au groupe -->
+            <field name="groups_id"
+                eval="[(6, 0, [ref('base.group_user')])]" />
+        </record>
+    </data>
+</odoo>
