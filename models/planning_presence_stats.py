@@ -195,13 +195,26 @@ class PlanningPresenceStats(models.Model):
         action = self.env.ref(
             "chc_cds_planning.action_chc_cds_planning_presence_stats"
         ).read()[0]
+        action["name"] = f"Stats présence & vendredis PM ({year})"
         action["domain"] = [("stats_year", "=", year)]
         action["context"] = dict(
             self.env.context,
             default_stats_year=year,
             search_default_rotation_eligible=1,
         )
-        return action
+        summary = self.get_summary(year)
+        # Odoo 17 : notification puis ouverture de la vue stats
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Stats actualisées",
+                "message": summary,
+                "type": "success" if "éligibles" in summary else "warning",
+                "sticky": False,
+                "next": action,
+            },
+        }
 
     @api.model
     def get_summary(self, year=None):
@@ -211,7 +224,10 @@ class PlanningPresenceStats(models.Model):
             [("stats_year", "=", year), ("is_rotation_eligible", "=", True)]
         )
         if not records:
-            return "Aucune donnée de rotation disponible."
+            return (
+                f"Année {year} — aucune donnée de rotation. "
+                "Générez des plannings puis actualisez."
+            )
 
         totals = records.mapped("friday_pm_total")
         avg = sum(totals) / len(totals)
@@ -219,8 +235,14 @@ class PlanningPresenceStats(models.Model):
         max_val = max(totals)
         spread = max_val - min_val
 
+        fct_totals = records.mapped("friday_pm_fct")
+        tch_totals = records.mapped("friday_pm_tch")
+        fct_spread = max(fct_totals) - min(fct_totals) if fct_totals else 0
+        tch_spread = max(tch_totals) - min(tch_totals) if tch_totals else 0
+
         return (
             f"Année {year} — {len(records)} employés éligibles — "
             f"Moyenne : {avg:.1f} vendredis PM MLE — "
-            f"Min : {min_val} / Max : {max_val} (écart : {spread})"
+            f"Min : {min_val} / Max : {max_val} (écart : {spread}) — "
+            f"Écart FCT : {fct_spread} / Écart TCH : {tch_spread}"
         )

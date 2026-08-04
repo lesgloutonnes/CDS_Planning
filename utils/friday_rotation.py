@@ -41,8 +41,8 @@ def get_planning_week_ids_for_year(env, year):
 
 
 def get_counter_field(perm_type_code):
-  """Retourne le nom du champ compteur pour un type de permanence."""
-  return "counter_fct" if perm_type_code == "FCT" else "counter_tch"
+    """Retourne le nom du champ compteur pour un type de permanence."""
+    return "counter_fct" if perm_type_code == "FCT" else "counter_tch"
 
 
 def get_last_date_field(perm_type_code):
@@ -61,7 +61,7 @@ def find_best_friday_pm_candidate(
     Critères (par ordre de priorité) :
     1. Qualifié MLE + type de permanence
     2. Disponible le vendredi
-    3. Non exclu (JUAPE, déjà assigné cette semaine, ids exclus)
+    3. Non exclu (JUAPE, déjà en PM MLE cette semaine, ids exclus)
     4. Compteur le plus bas pour ce type (FCT ou TCH)
     5. En cas d'égalité : date de dernière affectation la plus ancienne
     6. En cas d'égalité : id employé (déterministe)

@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from odoo import fields, models
 
 from ..utils.friday_rotation import (
+    EXCLUDED_EMPLOYEE_CODES,
     find_best_friday_pm_candidate,
     get_friday_date,
     is_friday_pm_mle_assignment,
@@ -313,6 +314,11 @@ class MonthlyPlanningGenerator(models.TransientModel):
                 created_assignments, week_start, rotation_state, replacements_log
             )
 
+            # Incrémenter les compteurs depuis les affectations finales (après conflits/doublons)
+            self._commit_friday_rotation_counters(
+                created_assignments, week_start, rotation_state
+            )
+
         return planning, replacements_log
 
     def _find_replacement_employee(
@@ -359,7 +365,11 @@ class MonthlyPlanningGenerator(models.TransientModel):
     def _apply_friday_rotation(
         self, assignments, week_start, rotation_state, replacements_log
     ):
-        """Applique la rotation équitable pour vendredi PM MLE (FCT et TCH séparés)."""
+        """Applique la rotation équitable pour vendredi PM MLE (FCT et TCH séparés).
+
+        Les compteurs ne sont pas incrémentés ici : on attend les corrections
+        AM/PM et doublons, puis `_commit_friday_rotation_counters`.
+        """
         friday_pm_assignments = assignments.filtered(is_friday_pm_mle_assignment)
         if not friday_pm_assignments:
             return
@@ -375,7 +385,6 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
             assignment = type_assignments[0]
             counter_key = f"employee_friday_pm_{perm_code.lower()}"
-            last_dates_key = f"last_{perm_code.lower()}_dates"
 
             best_candidate = find_best_friday_pm_candidate(
                 self.env,
@@ -402,10 +411,29 @@ class MonthlyPlanningGenerator(models.TransientModel):
 
                 assigned = assignment.employee_id
                 rotation_state["friday_pm_mle_assigned"].add(assigned.id)
-                rotation_state[counter_key][assigned.id] = (
-                    rotation_state[counter_key].get(assigned.id, 0) + 1
-                )
-                rotation_state[last_dates_key][assigned.id] = friday_date
+
+    def _commit_friday_rotation_counters(
+        self, assignments, week_start, rotation_state
+    ):
+        """Incrémente les compteurs de rotation depuis les affectations finales de la semaine."""
+        friday_date = get_friday_date(week_start)
+        friday_pm_assignments = assignments.filtered(is_friday_pm_mle_assignment)
+        rotation_state["friday_pm_mle_assigned"] = set()
+
+        for assignment in friday_pm_assignments:
+            emp = assignment.employee_id
+            if not emp or emp.employee_code in EXCLUDED_EMPLOYEE_CODES:
+                continue
+            perm_code = assignment.permanence_type_id.code
+            if perm_code not in ("FCT", "TCH"):
+                continue
+            counter_key = f"employee_friday_pm_{perm_code.lower()}"
+            last_dates_key = f"last_{perm_code.lower()}_dates"
+            rotation_state["friday_pm_mle_assigned"].add(emp.id)
+            rotation_state[counter_key][emp.id] = (
+                rotation_state[counter_key].get(emp.id, 0) + 1
+            )
+            rotation_state[last_dates_key][emp.id] = friday_date
 
     def _generate_report(self, rotation_state, replacements_log):
         """Génère un rapport de génération concis"""
@@ -593,10 +621,18 @@ class MonthlyPlanningGenerator(models.TransientModel):
             # Trouver les doublons (un employé assigné plusieurs fois le même jour)
             for (day, emp_id), day_assignments in assignments_by_day_employee.items():
                 if len(day_assignments) > 1:
-                    # Doublon détecté : cet employé est assigné plusieurs fois ce jour-là
-                    # Garder la première affectation, trouver un remplaçant pour les autres
-                    kept_assignment = day_assignments[0]
-                    duplicate_assignments = day_assignments[1:]
+                    # Préférer conserver un vendredi PM MLE FCT/TCH (créneau de rotation)
+                    # plutôt qu'un atelier / site externe qui annulerait la rotation.
+                    day_assignments_sorted = sorted(
+                        day_assignments,
+                        key=lambda a: (
+                            0 if is_friday_pm_mle_assignment(a) else 1,
+                            0 if (a.period or "").replace(" ", "").lower() == "pm" else 1,
+                            a.id,
+                        ),
+                    )
+                    kept_assignment = day_assignments_sorted[0]
+                    duplicate_assignments = day_assignments_sorted[1:]
 
                     for duplicate in duplicate_assignments:
                         # Calculer la date
