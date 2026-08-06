@@ -18,9 +18,9 @@
                 <field name="employee_name" />
                 <field name="is_rotation_eligible" optional="show" />
                 <field name="total_presence" sum="Total" optional="show" />
-                <field name="friday_pm_fct" string="Vendredi PM FCT" sum="Total FCT" />
-                <field name="friday_pm_tch" string="Vendredi PM TCH" sum="Total TCH" />
-                <field name="friday_pm_total" string="Total PM MLE" sum="Total PM MLE" />
+                <field name="friday_pm_fct" string="Perm FCT" sum="Total Perm FCT" />
+                <field name="friday_pm_tch" string="Perm TCH" sum="Total Perm TCH" />
+                <field name="friday_pm_total" string="Compteur Vendredi PM" sum="Total Vendredi PM" />
                 <field name="rotation_counter_fct" string="Compteur FCT" sum="Rotation FCT" optional="show" />
                 <field name="rotation_counter_tch" string="Compteur TCH" sum="Rotation TCH" optional="show" />
                 <field name="rotation_counter" string="Compteur total" sum="Rotation total" optional="hide" />
@@ -41,7 +41,7 @@
                 <field name="stats_year" />
                 <filter name="rotation_eligible" string="Éligibles rotation"
                     domain="[('is_rotation_eligible', '=', True)]" />
-                <filter name="has_friday_pm" string="Avec vendredis PM MLE"
+                <filter name="has_friday_pm" string="Avec compteur vendredi PM"
                     domain="[('friday_pm_total', '&gt;', 0)]" />
                 <filter name="overloaded" string="Au-dessus de la moyenne"
                     domain="[('deviation_from_avg', '&gt;', 0)]" />
@@ -61,7 +61,7 @@
         <field name="name">chc_cds_planning.presence_stats.pivot</field>
         <field name="model">chc_cds_planning.planning_presence_stats</field>
         <field name="arch" type="xml">
-            <pivot string="Analyse vendredis PM">
+            <pivot string="Analyse permanences &amp; vendredis PM">
                 <field name="employee_name" type="row" />
                 <field name="friday_pm_fct" type="measure" />
                 <field name="friday_pm_tch" type="measure" />
@@ -75,7 +75,7 @@
         <field name="name">chc_cds_planning.presence_stats.graph</field>
         <field name="model">chc_cds_planning.planning_presence_stats</field>
         <field name="arch" type="xml">
-            <graph string="Vendredis PM MLE" type="bar" stacked="True">
+            <graph string="Perm FCT / Perm TCH" type="bar" stacked="True">
                 <field name="employee_name" />
                 <field name="friday_pm_fct" type="measure" />
                 <field name="friday_pm_tch" type="measure" />
@@ -94,8 +94,8 @@
                 Aucune statistique disponible
             </p>
             <p>
-                Cliquez sur « Actualiser » pour calculer les statistiques de présence
-                et les compteurs de vendredis PM MLE (fonctionnel et technique).
+                Cliquez sur « Actualiser » pour calculer les statistiques de présence :
+                Perm FCT, Perm TCH (hors on site) et Compteur Vendredi PM.
                 Les lignes en rouge/orange indiquent une charge au-dessus de la moyenne.
             </p>
         </field>

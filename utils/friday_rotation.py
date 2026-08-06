@@ -7,8 +7,14 @@ FRIDAY_PM_PERM_CODES = frozenset({"FCT", "TCH"})
 
 
 def is_friday_pm_mle_assignment(assignment):
-    """Vérifie si une affectation est un vendredi PM MLE FCT/TCH."""
+    """Vérifie si une affectation est un vendredi PM MLE FCT/TCH.
+
+    Les permanences on site (HEU/HRM/WAR) et on site MLE (ATL) sont exclues.
+    Les permanences spéciales ne comptent pas non plus.
+    """
     if not assignment:
+        return False
+    if getattr(assignment, "special_name", None):
         return False
     if assignment.day != "friday":
         return False

@@ -98,6 +98,7 @@ class TestFridayRotationHelpers(unittest.TestCase):
         mle = FakeSite(id=1, code="MLE")
         war = FakeSite(id=2, code="WAR")
         fct = FakePermType(id=10, code="FCT")
+        tch = FakePermType(id=20, code="TCH")
         atelier = FakePermType(id=30, code="ATL")
 
         ok = FakeAssignment(
@@ -105,20 +106,53 @@ class TestFridayRotationHelpers(unittest.TestCase):
             period="pm",
             site_id=mle,
             permanence_type_id=fct,
+            special_name=False,
         )
         self.assertTrue(is_friday_pm_mle_assignment(ok))
 
         self.assertFalse(
             is_friday_pm_mle_assignment(
                 FakeAssignment(
-                    day="friday", period="pm", site_id=war, permanence_type_id=fct
+                    day="friday",
+                    period="pm",
+                    site_id=war,
+                    permanence_type_id=tch,
+                    special_name=False,
                 )
             )
         )
         self.assertFalse(
             is_friday_pm_mle_assignment(
                 FakeAssignment(
-                    day="friday", period="full", site_id=mle, permanence_type_id=atelier
+                    day="friday",
+                    period="full",
+                    site_id=mle,
+                    permanence_type_id=atelier,
+                    special_name=False,
+                )
+            )
+        )
+        # On site MLE (ATL) ne compte jamais, même en vendredi PM
+        self.assertFalse(
+            is_friday_pm_mle_assignment(
+                FakeAssignment(
+                    day="friday",
+                    period="pm",
+                    site_id=mle,
+                    permanence_type_id=atelier,
+                    special_name=False,
+                )
+            )
+        )
+        # Permanence spéciale exclue
+        self.assertFalse(
+            is_friday_pm_mle_assignment(
+                FakeAssignment(
+                    day="friday",
+                    period="pm",
+                    site_id=mle,
+                    permanence_type_id=fct,
+                    special_name="Formation",
                 )
             )
         )
