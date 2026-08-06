@@ -36,7 +36,9 @@ class PlanningPresenceStats(models.Model):
     )
     friday_pm_total = fields.Integer(
         string="Compteur Vendredi PM",
-        help="Nombre de vendredis après-midi en permanence FCT/TCH MLE",
+        compute="_compute_friday_pm_total",
+        store=True,
+        help="Somme Perm FCT + Perm TCH (hors on site et on site MLE)",
     )
     rotation_counter_fct = fields.Integer(
         string="Compteur rotation FCT",
@@ -69,6 +71,11 @@ class PlanningPresenceStats(models.Model):
         )
     ]
 
+    @api.depends("friday_pm_fct", "friday_pm_tch")
+    def _compute_friday_pm_total(self):
+        for record in self:
+            record.friday_pm_total = record.friday_pm_fct + record.friday_pm_tch
+
     @api.model
     def _get_mle_site(self):
         return self.env["chc_cds_planning.site"].search([("code", "=", "MLE")], limit=1)
@@ -88,24 +95,6 @@ class PlanningPresenceStats(models.Model):
             and q.permanence_type_id.id in perm_types.ids
         )
         return bool(qualifications)
-
-    @api.model
-    def _count_friday_pm_assignments(self, employee, year, mle_site, perm_type_code):
-        """Compte les vendredis PM MLE pour un type FCT/TCH (jamais les on site)."""
-        week_ids = get_planning_week_ids_for_year(self.env, year)
-        if not week_ids:
-            return 0
-        return self.env["chc_cds_planning.planning_assignment"].search_count(
-            [
-                ("employee_id", "=", employee.id),
-                ("day", "=", "friday"),
-                ("period", "=", "pm"),
-                ("site_id", "=", mle_site.id),
-                ("permanence_type_id.code", "=", perm_type_code),
-                ("special_name", "=", False),
-                ("planning_week_id", "in", week_ids),
-            ]
-        )
 
     @api.model
     def _count_perm_assignments(self, employee, year, perm_type_code):
@@ -164,9 +153,6 @@ class PlanningPresenceStats(models.Model):
             total_presence = self._count_total_presence(employee, year)
             perm_fct = self._count_perm_assignments(employee, year, "FCT")
             perm_tch = self._count_perm_assignments(employee, year, "TCH")
-            friday_pm_total = self._count_friday_pm_assignments(
-                employee, year, mle_site, "FCT"
-            ) + self._count_friday_pm_assignments(employee, year, mle_site, "TCH")
             is_eligible = self._is_rotation_eligible(employee, mle_site, perm_types)
 
             if not total_presence and not is_eligible:
@@ -183,7 +169,6 @@ class PlanningPresenceStats(models.Model):
                     "total_presence": total_presence,
                     "friday_pm_fct": perm_fct,
                     "friday_pm_tch": perm_tch,
-                    "friday_pm_total": friday_pm_total,
                     "rotation_counter_fct": (
                         counter_record.counter_fct if counter_record else 0
                     ),
@@ -261,7 +246,7 @@ class PlanningPresenceStats(models.Model):
 
         return (
             f"Année {year} — {len(records)} employés éligibles — "
-            f"Moyenne : {avg:.1f} vendredis PM — "
+            f"Moyenne : {avg:.1f} (Perm FCT + Perm TCH) — "
             f"Min : {min_val} / Max : {max_val} (écart : {spread}) — "
             f"Écart Perm FCT : {fct_spread} / Écart Perm TCH : {tch_spread}"
         )
