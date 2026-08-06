@@ -20,10 +20,14 @@ class FridayRotationCounter(models.Model):
         "hr.employee", string="Employé", required=True, ondelete="cascade"
     )
     counter_fct = fields.Integer(
-        string="Vendredis PM Fonctionnel", default=0
+        string="Compteur FCT",
+        default=0,
+        help="Compteur persistant des vendredis PM FCT MLE (jamais les on site)",
     )
     counter_tch = fields.Integer(
-        string="Vendredis PM Technique", default=0
+        string="Compteur TCH",
+        default=0,
+        help="Compteur persistant des vendredis PM TCH MLE (jamais les on site ni on site MLE)",
     )
     counter = fields.Integer(
         string="Total vendredis PM MLE",
@@ -132,12 +136,15 @@ class FridayRotationCounter(models.Model):
         if not week_ids:
             return
 
+        # Uniquement FCT/TCH sur MLE : les on site (HEU/HRM/WAR) et ATL
+        # (on site MLE) ne sont jamais comptés.
         assignments = self.env["chc_cds_planning.planning_assignment"].search(
             [
                 ("day", "=", "friday"),
                 ("period", "=", "pm"),
                 ("site_id", "=", mle_site.id),
                 ("permanence_type_id.code", "in", ["FCT", "TCH"]),
+                ("special_name", "=", False),
                 ("planning_week_id", "in", week_ids),
             ],
             order="id",
