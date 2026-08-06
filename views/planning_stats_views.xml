@@ -6,9 +6,9 @@
         <field name="model">chc_cds_planning.planning_presence_stats</field>
         <field name="arch" type="xml">
             <tree string="Statistiques de présence" create="false" edit="false" delete="false"
-                decoration-danger="deviation_from_avg &gt; 1"
-                decoration-warning="deviation_from_avg &gt; 0 and deviation_from_avg &lt;= 1"
-                decoration-success="deviation_from_avg &lt; 0">
+                decoration-success="is_rotation_eligible and deviation_from_avg &gt;= -1 and deviation_from_avg &lt;= 1"
+                decoration-warning="is_rotation_eligible and ((deviation_from_avg &gt; 1 and deviation_from_avg &lt;= 2) or (deviation_from_avg &lt; -1 and deviation_from_avg &gt;= -2))"
+                decoration-danger="is_rotation_eligible and (deviation_from_avg &gt; 2 or deviation_from_avg &lt; -2)">
                 <header>
                     <button name="action_refresh_stats" type="object"
                         string="Actualiser" class="btn-primary"
@@ -20,13 +20,15 @@
                 <field name="total_presence" sum="Total" optional="show" />
                 <field name="friday_pm_fct" string="Perm FCT" sum="Total Perm FCT" />
                 <field name="friday_pm_tch" string="Perm TCH" sum="Total Perm TCH" />
+                <field name="perm_onsite" string="Perm Onsite" sum="Total Perm Onsite" />
                 <field name="friday_pm_total" string="Compteur Vendredi PM" sum="Total Vendredi PM" />
                 <field name="rotation_counter_fct" string="Compteur FCT" sum="Rotation FCT" optional="show" />
                 <field name="rotation_counter_tch" string="Compteur TCH" sum="Rotation TCH" optional="show" />
                 <field name="rotation_counter" string="Compteur total" sum="Rotation total" optional="hide" />
                 <field name="deviation_from_avg" string="Écart vs moyenne" optional="show" />
                 <field name="last_friday_pm_date" optional="hide" />
-                <field name="stats_year" optional="show" />
+                <field name="stats_year_label" string="Année" optional="show" />
+                <field name="stats_year" column_invisible="1" />
             </tree>
         </field>
     </record>
@@ -53,7 +55,8 @@
                         context="{'group_by': 'is_rotation_eligible'}" />
                     <filter name="group_year" string="Année"
                         context="{'group_by': 'stats_year'}" />
-                </group>            </search>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -65,6 +68,7 @@
                 <field name="employee_name" type="row" />
                 <field name="friday_pm_fct" type="measure" />
                 <field name="friday_pm_tch" type="measure" />
+                <field name="perm_onsite" type="measure" />
                 <field name="friday_pm_total" type="measure" />
                 <field name="total_presence" type="measure" />
             </pivot>
@@ -75,10 +79,11 @@
         <field name="name">chc_cds_planning.presence_stats.graph</field>
         <field name="model">chc_cds_planning.planning_presence_stats</field>
         <field name="arch" type="xml">
-            <graph string="Perm FCT / Perm TCH" type="bar" stacked="True">
+            <graph string="Perm FCT / Perm TCH / Perm Onsite" type="bar" stacked="True">
                 <field name="employee_name" />
                 <field name="friday_pm_fct" type="measure" />
                 <field name="friday_pm_tch" type="measure" />
+                <field name="perm_onsite" type="measure" />
             </graph>
         </field>
     </record>
@@ -88,15 +93,16 @@
         <field name="res_model">chc_cds_planning.planning_presence_stats</field>
         <field name="view_mode">tree,pivot,graph</field>
         <field name="search_view_id" ref="view_chc_cds_planning_presence_stats_search" />
-        <field name="context">{'search_default_rotation_eligible': 1}</field>
+        <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Aucune statistique disponible
             </p>
             <p>
                 Cliquez sur « Actualiser » pour calculer les statistiques de présence :
-                Perm FCT, Perm TCH (hors on site) et Compteur Vendredi PM.
-                Les lignes en rouge/orange indiquent une charge au-dessus de la moyenne.
+                Perm FCT, Perm TCH, Perm Onsite et Compteur Vendredi PM
+                (somme des Compteurs FCT et TCH).
+                Couleurs d'écart : vert [-1 ; 1], orange ]1 ; 2] / [-2 ; -1[, rouge au-delà.
             </p>
         </field>
     </record>
