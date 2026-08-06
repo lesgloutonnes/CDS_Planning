@@ -21,11 +21,13 @@ class PlanningPresenceStats(models.Model):
     employee_name = fields.Char(related="employee_id.name", string="Nom", store=True)
 
     stats_year = fields.Integer(string="Année", required=True, default=date.today().year)
-
-    total_presence = fields.Integer(
-        string="Total affectations",
-        help="Nombre total d'affectations dans les plannings de l'année",
+    stats_year_label = fields.Char(
+        string="Année",
+        compute="_compute_stats_year_label",
+        store=True,
+        help="Année au format 2026 (sans séparateur de milliers)",
     )
+
     friday_pm_fct = fields.Integer(
         string="Perm FCT",
         help="Nombre de permanences fonctionnelles (hors on site)",
@@ -34,19 +36,29 @@ class PlanningPresenceStats(models.Model):
         string="Perm TCH",
         help="Nombre de permanences techniques (hors on site et on site MLE)",
     )
+    perm_onsite = fields.Integer(
+        string="Perm Onsite",
+        help="Permanences on site regroupées : MLE (ATL), HRM, HEU, WAR",
+    )
+    total_presence = fields.Integer(
+        string="Total affectations",
+        compute="_compute_total_presence",
+        store=True,
+        help="Somme Perm FCT + Perm TCH + Perm Onsite",
+    )
     friday_pm_total = fields.Integer(
         string="Compteur Vendredi PM",
         compute="_compute_friday_pm_total",
         store=True,
-        help="Somme Perm FCT + Perm TCH (hors on site et on site MLE)",
+        help="Somme Compteur FCT + Compteur TCH",
     )
     rotation_counter_fct = fields.Integer(
         string="Compteur rotation FCT",
-        help="Compteur persistant permanences fonctionnelles (hors on site)",
+        help="Compteur persistant des vendredis PM FCT (hors on site)",
     )
     rotation_counter_tch = fields.Integer(
         string="Compteur rotation TCH",
-        help="Compteur persistant permanences techniques (hors on site)",
+        help="Compteur persistant des vendredis PM TCH (hors on site)",
     )
     rotation_counter = fields.Integer(
         string="Compteur rotation total",
@@ -60,7 +72,7 @@ class PlanningPresenceStats(models.Model):
     deviation_from_avg = fields.Float(
         string="Écart vs moyenne",
         digits=(16, 1),
-        help="Écart par rapport à la moyenne du compteur vendredi PM (éligibles uniquement)",
+        help="Écart par rapport à la moyenne du Compteur Vendredi PM (éligibles uniquement)",
     )
 
     _sql_constraints = [
@@ -71,10 +83,24 @@ class PlanningPresenceStats(models.Model):
         )
     ]
 
-    @api.depends("friday_pm_fct", "friday_pm_tch")
+    @api.depends("stats_year")
+    def _compute_stats_year_label(self):
+        for record in self:
+            record.stats_year_label = str(record.stats_year or "")
+
+    @api.depends("friday_pm_fct", "friday_pm_tch", "perm_onsite")
+    def _compute_total_presence(self):
+        for record in self:
+            record.total_presence = (
+                record.friday_pm_fct + record.friday_pm_tch + record.perm_onsite
+            )
+
+    @api.depends("rotation_counter_fct", "rotation_counter_tch")
     def _compute_friday_pm_total(self):
         for record in self:
-            record.friday_pm_total = record.friday_pm_fct + record.friday_pm_tch
+            record.friday_pm_total = (
+                record.rotation_counter_fct + record.rotation_counter_tch
+            )
 
     @api.model
     def _get_mle_site(self):
@@ -119,14 +145,21 @@ class PlanningPresenceStats(models.Model):
         )
 
     @api.model
-    def _count_total_presence(self, employee, year):
+    def _count_onsite_assignments(self, employee, year):
+        """Compte les 4 permanences on site : MLE (ATL), HRM, HEU, WAR."""
         week_ids = get_planning_week_ids_for_year(self.env, year)
         if not week_ids:
             return 0
         return self.env["chc_cds_planning.planning_assignment"].search_count(
             [
                 ("employee_id", "=", employee.id),
+                ("special_name", "=", False),
                 ("planning_week_id", "in", week_ids),
+                "|",
+                ("permanence_type_id.code", "=", "ATL"),
+                "&",
+                ("permanence_type_id.code", "=", "TCH"),
+                ("site_id.code", "in", list(ISOLATED_ON_SITE_CODES)),
             ]
         )
 
@@ -150,12 +183,12 @@ class PlanningPresenceStats(models.Model):
         stats_vals = []
 
         for employee in employees:
-            total_presence = self._count_total_presence(employee, year)
             perm_fct = self._count_perm_assignments(employee, year, "FCT")
             perm_tch = self._count_perm_assignments(employee, year, "TCH")
+            perm_onsite = self._count_onsite_assignments(employee, year)
             is_eligible = self._is_rotation_eligible(employee, mle_site, perm_types)
 
-            if not total_presence and not is_eligible:
+            if not (perm_fct or perm_tch or perm_onsite or is_eligible):
                 continue
 
             counter_record = self.env[
@@ -166,9 +199,9 @@ class PlanningPresenceStats(models.Model):
                 {
                     "employee_id": employee.id,
                     "stats_year": year,
-                    "total_presence": total_presence,
                     "friday_pm_fct": perm_fct,
                     "friday_pm_tch": perm_tch,
+                    "perm_onsite": perm_onsite,
                     "rotation_counter_fct": (
                         counter_record.counter_fct if counter_record else 0
                     ),
@@ -204,7 +237,6 @@ class PlanningPresenceStats(models.Model):
         action["context"] = dict(
             self.env.context,
             default_stats_year=year,
-            search_default_rotation_eligible=1,
         )
         summary = self.get_summary(year)
         # Odoo 17 : notification puis ouverture de la vue stats
@@ -239,14 +271,14 @@ class PlanningPresenceStats(models.Model):
         max_val = max(totals)
         spread = max_val - min_val
 
-        fct_totals = records.mapped("friday_pm_fct")
-        tch_totals = records.mapped("friday_pm_tch")
+        fct_totals = records.mapped("rotation_counter_fct")
+        tch_totals = records.mapped("rotation_counter_tch")
         fct_spread = max(fct_totals) - min(fct_totals) if fct_totals else 0
         tch_spread = max(tch_totals) - min(tch_totals) if tch_totals else 0
 
         return (
             f"Année {year} — {len(records)} employés éligibles — "
-            f"Moyenne : {avg:.1f} (Perm FCT + Perm TCH) — "
+            f"Moyenne Compteur Vendredi PM : {avg:.1f} — "
             f"Min : {min_val} / Max : {max_val} (écart : {spread}) — "
-            f"Écart Perm FCT : {fct_spread} / Écart Perm TCH : {tch_spread}"
+            f"Écart Compteur FCT : {fct_spread} / Écart Compteur TCH : {tch_spread}"
         )
